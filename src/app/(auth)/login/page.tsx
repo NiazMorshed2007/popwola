@@ -30,7 +30,7 @@ const Login = () => {
               Login
             </button>
             <p className="text-sm mt-6">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link className="text-brand" href={"/signup"}>
                 Sign Up
               </Link>

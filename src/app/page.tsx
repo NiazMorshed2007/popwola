@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div>
       <Logo />
-      <h1>Hey! You're on the home</h1>
+      <h1>Hey! You&apos;re on the home</h1>
       <Link href={"/signup"}>
         <button className="bg-gray-600 px-10">go</button>
       </Link>
