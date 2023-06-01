@@ -4,20 +4,23 @@ import { Input } from "@/components/ui/input";
 import { LoginInterface } from "@/interfaces/auth.interface";
 import { login } from "@/lib/services/auth.service";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const LoginForm = () => {
+  const router = useRouter();
   const [data, setData] = useState<LoginInterface>({ email: "", password: "" });
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleLogin = async (e: any) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const user = await login({ email: data.email, password: data.password });
-    console.log(user);
+    localStorage.setItem("user_id", user.$id);
+    setData({ email: "", password: "" });
+    router.push("/space");
   };
 
   return (

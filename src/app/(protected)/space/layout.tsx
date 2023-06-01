@@ -8,7 +8,6 @@ interface Props {
 }
 
 const DashboardLayout: React.FC<Props> = ({ children }) => {
-  console.log("Hello from server");
   return (
     <div className="p-5 pr-1 py-4 flex w-screen h-screen">
       <Sidebar />

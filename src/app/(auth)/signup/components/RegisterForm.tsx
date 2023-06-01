@@ -3,6 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { RegisterInterface } from "@/interfaces/auth.interface";
 import { register } from "@/lib/services/auth.service";
+import { createUserDocument } from "@/lib/services/user.service";
 import { FileWarning } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,17 +21,17 @@ const RegisterForm = () => {
   const [error, setError] = useState<string>("");
   const router = useRouter();
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleRegister = async (e: any) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (data.password !== confirmedPassword)
       return setError("Password does not match");
 
     const user = await register(data);
+    localStorage.setItem("user_id", user.$id);
     setError("");
     setConfirmedPassword("");
     setData({
@@ -40,8 +41,11 @@ const RegisterForm = () => {
       website_url: "",
       address: "",
     });
-    router.push("/space");
-    console.log(user);
+    if (user) {
+      const { password, ...rest } = data;
+      await createUserDocument(rest, user.$id);
+      router.push("/space");
+    }
   };
 
   return (

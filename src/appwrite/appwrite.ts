@@ -2,7 +2,7 @@ import { LoginInterface, RegisterInterface } from "@/interfaces/auth.interface";
 import { Client as Appwrite, Databases, Account, ID } from "appwrite";
 
 // TODO: add in env
-const databaseId = "5f9d5c3b5e5b7";
+const databaseId = "6477edd01cdd300e0b80";
 
 let api: any = {
   sdk: null,
@@ -54,7 +54,7 @@ let api: any = {
     return api
       .provider()
       .database.createDocument(
-        "demodb",
+        databaseId,
         collectionId,
         "unique()",
         data,
@@ -62,9 +62,9 @@ let api: any = {
       );
   },
 
-  // listDocuments: (databaseId, collectionId) => {
-  //   return api.provider().database.listDocuments(databaseId, collectionId);
-  // },
+  getDocuments: (collectionId: string) => {
+    return api.provider().database.listDocuments(databaseId, collectionId);
+  },
 
   // updateDocument: (databaseId, collectionId, documentId, data) => {
   //   return api
