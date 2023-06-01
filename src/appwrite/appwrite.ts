@@ -1,10 +1,82 @@
-import { Client, Account } from "appwrite";
+import { LoginInterface, RegisterInterface } from "@/interfaces/auth.interface";
+import { Client as Appwrite, Databases, Account, ID } from "appwrite";
 
-const client = new Client();
+// TODO: add in env
+const databaseId = "5f9d5c3b5e5b7";
 
-client
-  .setEndpoint("https://cloud.appwrite.io/v1")
-  .setProject("6475ca5453bd7b131cd8");
+let api: any = {
+  sdk: null,
 
-export const account = new Account(client);
-export default client;
+  provider: () => {
+    if (api.sdk) {
+      return api.sdk;
+    }
+    let appwrite = new Appwrite();
+    appwrite
+      .setEndpoint("https://cloud.appwrite.io/v1")
+      .setProject("6475ca5453bd7b131cd8");
+    const account = new Account(appwrite);
+    const database = new Databases(appwrite);
+
+    api.sdk = { database, account };
+    return api.sdk;
+  },
+
+  createAccount: (registerBody: RegisterInterface) => {
+    return api
+      .provider()
+      .account.create(
+        ID.unique(),
+        registerBody.email,
+        registerBody.password,
+        registerBody.fullName
+      );
+  },
+
+  getAccount: () => {
+    let account = api.provider().account;
+    return account.get();
+  },
+
+  createSession: (loginBody: LoginInterface) => {
+    console.log("loginBody", loginBody);
+
+    return api
+      .provider()
+      .account.createEmailSession(loginBody.email, loginBody.password);
+  },
+
+  deleteCurrentSession: () => {
+    return api.provider().account.deleteSession("current");
+  },
+
+  createDocument: (collectionId: string, data: JSON, permissions: any) => {
+    return api
+      .provider()
+      .database.createDocument(
+        "demodb",
+        collectionId,
+        "unique()",
+        data,
+        permissions
+      );
+  },
+
+  // listDocuments: (databaseId, collectionId) => {
+  //   return api.provider().database.listDocuments(databaseId, collectionId);
+  // },
+
+  // updateDocument: (databaseId, collectionId, documentId, data) => {
+  //   return api
+  //     .provider()
+  //     .database.updateDocument(databaseId, collectionId, documentId, data);
+  // },
+
+  // deleteDocument: (databaseId, collectionId, documentId) => {
+  //   return api
+  //     .provider()
+  //     .database.deleteDocument(databaseId, collectionId, documentId);
+  // },
+};
+
+export default api;

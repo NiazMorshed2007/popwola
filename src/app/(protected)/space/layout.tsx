@@ -1,13 +1,14 @@
-import React from "react";
-import Sidebar from "./components/Sidebar";
-import DashboardHeader from "./components/Header";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import React from "react";
+import DashboardHeader from "./components/Header";
+import Sidebar from "./components/Sidebar";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const DashboardLayout: React.FC<Props> = ({ children }) => {
+  console.log("Hello from server");
   return (
     <div className="p-5 pr-1 py-4 flex w-screen h-screen">
       <Sidebar />

@@ -1,6 +1,4 @@
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import React from "react";
+import LoginForm from "./components/LoginForm";
 
 const Login = () => {
   return (
@@ -13,29 +11,7 @@ const Login = () => {
           <p className="text-sm text-secondary text-center">
             Login to your account to continue scaling with popwola.
           </p>
-          <form className="py-10">
-            <div className="mb-4">
-              <label className="block mb-2 text-xs text-secondary font-medium">
-                Email <span className="text-red-500">*</span>
-              </label>
-              <Input type="email" placeholder="Email" />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2 text-xs text-secondary font-medium">
-                Password <span className="text-red-500">*</span>
-              </label>
-              <Input type="password" placeholder="Password" />
-            </div>
-            <button className="w-full py-2 px-4 bg-brand hover:bg-brand/90 rounded-md text-white text-sm">
-              Login
-            </button>
-            <p className="text-sm mt-6">
-              Don&apos;t have an account?{" "}
-              <Link className="text-brand" href={"/signup"}>
-                Sign Up
-              </Link>
-            </p>
-          </form>
+          <LoginForm />
         </div>
       </div>
       <div className="right w-5/12 h-full">
