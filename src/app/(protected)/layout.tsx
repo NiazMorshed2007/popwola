@@ -1,4 +1,5 @@
 "use client";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { getSession } from "@/lib/services/auth.service";
 import { useRouter } from "next/navigation";
@@ -18,8 +19,8 @@ const ProtectedLayout: React.FC<Props> = ({ children }) => {
         const session = await getSession();
         if (!session) {
           router.push("/login");
+          localStorage.clear();
         }
-        console.log(session);
         setLoading(false);
       } catch (error) {
         router.push("/login");

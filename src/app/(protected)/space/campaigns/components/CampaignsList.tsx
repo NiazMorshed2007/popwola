@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import CampaignCardSkeleton from "./CampaignCardSkeleton";
 import CampaignCard from "./CampaignCard";
 import { Orbit } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const CampaignsList = () => {
   const [campaignsList, setCampaignsList] = useState<CampaignInterface[]>([]);
@@ -43,6 +45,9 @@ const CampaignsList = () => {
           <div className="p-5 py-10 rounded-xl w-[400px] flex items-center flex-col justify-center bg-foreground">
             <Orbit className="mb-7" size={50} />
             <h1 className="text-xl font-semibold">There is no campaign yet!</h1>
+            <Link href="/space/campaigns/create" className="mt-3">
+              <Button>Create Campaign</Button>
+            </Link>
           </div>
         </div>
       )}

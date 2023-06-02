@@ -1,7 +1,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import React from "react";
-import DashboardHeader from "./components/Header";
-import Sidebar from "./components/Sidebar";
+import DashboardHeader from "./components/header/Header";
+import Sidebar from "./components/sidebar/Sidebar";
 
 interface Props {
   children: React.ReactNode;

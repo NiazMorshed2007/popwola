@@ -22,3 +22,12 @@ export const createCampaignDocument = async (
     ]
   );
 };
+
+export const getCampaignDocument = async (
+  campaignId: string
+): Promise<CampaignInterface> => {
+  return api.getDocument(
+    process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID,
+    campaignId
+  );
+};

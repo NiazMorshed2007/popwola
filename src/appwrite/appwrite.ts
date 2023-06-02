@@ -1,8 +1,7 @@
 import { LoginInterface, RegisterInterface } from "@/interfaces/auth.interface";
 import { Client as Appwrite, Databases, Account, ID } from "appwrite";
 
-// TODO: add in env
-const databaseId = "6477edd01cdd300e0b80";
+const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 
 let api: any = {
   sdk: null,
@@ -64,6 +63,12 @@ let api: any = {
 
   getDocuments: (collectionId: string) => {
     return api.provider().database.listDocuments(databaseId, collectionId);
+  },
+
+  getDocument: (collectionId: string, documentId: string) => {
+    return api
+      .provider()
+      .database.getDocument(databaseId, collectionId, documentId);
   },
 
   // updateDocument: (databaseId, collectionId, documentId, data) => {
