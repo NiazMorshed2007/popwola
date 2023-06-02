@@ -69,7 +69,7 @@ const ManageCampaign = () => {
             ) : (
               <>
                 <h2 className="text-sm mb-4 text-secondary/70">
-                  You haven't created any template yet
+                  You haven&apos;t created any template yet
                 </h2>
                 <Button className="bg-secondary/10 hover:bg-secondary/5">
                   Select a template
