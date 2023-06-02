@@ -1,9 +1,11 @@
 import Logo from "@/components/Logo";
 import {
   AlignEndHorizontal,
+  Github,
   Home,
   Library,
   Settings,
+  Twitter,
   User,
 } from "lucide-react";
 import Link from "next/link";
@@ -19,11 +21,6 @@ const Sidebar = () => {
       name: "Campaigns",
       icon: <AlignEndHorizontal size={14} />,
       link: "/space/campaigns",
-    },
-    {
-      name: "Settings",
-      icon: <Settings size={14} />,
-      link: "/space/settings",
     },
     {
       name: "Profile",
@@ -53,9 +50,24 @@ const Sidebar = () => {
           ))}
         </nav>
       </div>
-      {/* <div className="bottom p-4 bg-foreground rounded-xl">
-        <p className="text-sm">Love the project?</p>
-      </div> */}
+      <div className="bottom p-4 bg-foreground rounded-xl">
+        <p className="text-sm text-center text-secondary/70">
+          Love the project? 💖
+        </p>
+        <p className="text-center text-xs text-secondary">
+          Leave a star / tweet on social
+        </p>
+        <div className="mt-6 flex justify-center items-center gap-7">
+          <Github
+            size={20}
+            className="text-secondary hover:text-secondary/70 transition-all"
+          />
+          <Twitter
+            size={20}
+            className="text-secondary hover:text-secondary/70 transition-all"
+          />
+        </div>
+      </div>
     </aside>
   );
 };

@@ -1,22 +1,13 @@
 import ElementItem from "@/components/modals/ElementItem";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import {
-  AlignLeft,
   CircleDot,
-  Clapperboard,
   FileType,
   Image,
   Layers,
   ListTree,
   LucideTextCursorInput,
-  Rocket,
   Video,
 } from "lucide-react";
-import React from "react";
 
 const ElementsMap = () => {
   return (
