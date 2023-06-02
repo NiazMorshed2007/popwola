@@ -13,7 +13,9 @@ export const getAllCampaigns = async (): Promise<{
 export const createCampaignDocument = async (
   campaignData: CampaignInterface
 ): Promise<CampaignInterface> => {
-  return api.createDocument(
+  console.log(userId());
+
+  return await api.createDocument(
     process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID,
     campaignData,
     [

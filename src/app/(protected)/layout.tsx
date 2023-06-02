@@ -17,6 +17,8 @@ const ProtectedLayout: React.FC<Props> = ({ children }) => {
     const checkSession = async () => {
       try {
         const session = await getSession();
+        console.log(session);
+
         if (!session) {
           router.push("/login");
           localStorage.clear();

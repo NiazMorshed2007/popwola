@@ -1,17 +1,19 @@
 import api from "@/appwrite/appwrite";
 import { LoginInterface, RegisterInterface } from "@/interfaces/auth.interface";
-import { createUserDocument } from "./user.service";
 
 export const register = async (registerBody: RegisterInterface) => {
   try {
     const userData = await api.createAccount(registerBody);
-    const session = await api.createSession({
-      email: registerBody.email,
-      password: registerBody.password,
-    });
-    if (session) {
-      const account = await api.getAccount();
-      return account;
+    if (userData) {
+      const session = await api.createSession({
+        email: registerBody.email,
+        password: registerBody.password,
+      });
+      console.log(session);
+      if (session) {
+        const account = await api.getAccount();
+        return account;
+      }
     }
   } catch (error) {
     console.error("Error occurred during registration:", error);

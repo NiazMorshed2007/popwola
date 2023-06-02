@@ -1,10 +1,12 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { RegisterInterface } from "@/interfaces/auth.interface";
 import { register } from "@/lib/services/auth.service";
 import { createUserDocument } from "@/lib/services/user.service";
-import { FileWarning } from "lucide-react";
+import { FileWarning, LoaderIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,9 +19,11 @@ const RegisterForm = () => {
     website_url: "",
     address: "",
   });
+  const [loading, setLoading] = useState<boolean>(false);
   const [confirmedPassword, setConfirmedPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
   const router = useRouter();
+
+  const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -28,23 +32,39 @@ const RegisterForm = () => {
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (data.password !== confirmedPassword)
-      return setError("Password does not match");
+      return toast({
+        variant: "destructive",
+        title: "Passwords do not match!",
+      });
 
-    const user = await register(data);
-    localStorage.setItem("user_id", user.$id);
-    setError("");
-    setConfirmedPassword("");
-    setData({
-      fullName: "",
-      email: "",
-      password: "",
-      website_url: "",
-      address: "",
-    });
-    if (user) {
-      const { password, ...rest } = data;
-      await createUserDocument(rest, user.$id);
-      router.push("/space");
+    try {
+      setLoading(true);
+      const user = await register(data);
+      localStorage.setItem("user_id", user.$id);
+      toast({
+        title: "Registration Successful!",
+      });
+      setConfirmedPassword("");
+      setData({
+        fullName: "",
+        email: "",
+        password: "",
+        website_url: "",
+        address: "",
+      });
+      if (user) {
+        const { password, ...rest } = data;
+        router.push("/space");
+        await createUserDocument(rest, user.$id);
+        setLoading(false);
+      }
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Can't Register :(",
+        description: err.message,
+      });
+      setLoading(false);
     }
   };
 
@@ -53,13 +73,6 @@ const RegisterForm = () => {
       onSubmit={handleRegister}
       className="py-10 flex flex-col gap-3 w-9/12 items-center justify-center"
     >
-      {error && (
-        <div className="error w-full p-4 rounded-xl my-6 bg-foreground">
-          <h2 className="text-red-500 flex items-center gap-4">
-            <FileWarning /> {error}
-          </h2>
-        </div>
-      )}
       <div className="flex items-center gap-4 w-full">
         <div className="mb-4 w-1/2">
           <label className="block mb-2 text-xs text-secondary font-medium">
@@ -141,10 +154,11 @@ const RegisterForm = () => {
           />
         </div>
       </div>
-
-      <button className="w-full py-2 px-4 bg-brand hover:bg-brand/90 rounded-md text-white text-sm">
+      <Button disabled={loading} className="w-full text-sm">
+        {" "}
+        {loading && <LoaderIcon className="animate-spin mr-3" size={20} />}{" "}
         SignUp
-      </button>
+      </Button>
       <p className="text-sm mt-3">
         Alread have an account?{" "}
         <Link className="text-brand" href={"/login"}>

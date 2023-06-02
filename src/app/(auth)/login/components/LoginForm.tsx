@@ -1,8 +1,13 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ToastProvider } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import { LoginInterface } from "@/interfaces/auth.interface";
 import { login } from "@/lib/services/auth.service";
+import { Toast } from "@radix-ui/react-toast";
+import { FileWarning, LoaderIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -10,6 +15,9 @@ import React, { useState } from "react";
 const LoginForm = () => {
   const router = useRouter();
   const [data, setData] = useState<LoginInterface>({ email: "", password: "" });
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -17,14 +25,31 @@ const LoginForm = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const user = await login({ email: data.email, password: data.password });
-    localStorage.setItem("user_id", user.$id);
-    setData({ email: "", password: "" });
-    router.push("/space");
+    setLoading(true);
+    try {
+      const user = await login({ email: data.email, password: data.password });
+      localStorage.setItem("user", JSON.stringify(user));
+      setData({ email: "", password: "" });
+      toast({
+        title: "Login Successful!",
+      });
+      router.push("/space");
+      setLoading(false);
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Can't Login :(",
+        description: err.message,
+      });
+      setLoading(false);
+    }
   };
 
   return (
     <form onSubmit={handleLogin} className="py-10">
+      <ToastProvider>
+        <Toast />
+      </ToastProvider>
       <div className="mb-4">
         <label className="block mb-2 text-xs text-secondary font-medium">
           Email <span className="text-red-500">*</span>
@@ -51,9 +76,11 @@ const LoginForm = () => {
           placeholder="Password"
         />
       </div>
-      <button className="w-full py-2 px-4 bg-brand hover:bg-brand/90 rounded-md text-white text-sm">
+      <Button disabled={loading} className="w-full text-sm">
+        {" "}
+        {loading && <LoaderIcon className="animate-spin mr-3" size={20} />}{" "}
         Login
-      </button>
+      </Button>
       <p className="text-sm mt-6">
         Don&apos;t have an account?{" "}
         <Link className="text-brand" href={"/signup"}>
