@@ -1,13 +1,7 @@
+"use client";
+
 import ElementItem from "@/components/modals/ElementItem";
-import {
-  CircleDot,
-  FileType,
-  Image,
-  Layers,
-  ListTree,
-  LucideTextCursorInput,
-  Video,
-} from "lucide-react";
+import { CircleDot, FileType, Image, Layers, ListTree } from "lucide-react";
 
 const ElementsMap = () => {
   return (
@@ -18,7 +12,7 @@ const ElementsMap = () => {
       </h2>
       <div className="flex flex-col py-2 gap-1 px-1">
         <ElementItem className="mb-4" icon={<Layers size={14} />}>
-          Popup
+          Popup Bg
         </ElementItem>
 
         <div className="group-wrapper mb-3">
@@ -26,6 +20,7 @@ const ElementsMap = () => {
           <div className="pl-3">
             <ElementItem icon={<FileType size={14} />}>Title</ElementItem>
             <ElementItem icon={<FileType size={14} />}>Sub Title</ElementItem>
+            <ElementItem icon={<FileType size={14} />}>Description</ElementItem>
           </div>
         </div>
 
@@ -33,16 +28,13 @@ const ElementsMap = () => {
           <p className="text-xs px-3 mb-2 text-secondary">Media</p>
           <div className="pl-3">
             <ElementItem icon={<Image size={14} />}>Image</ElementItem>
-            <ElementItem icon={<Video size={14} />}>Video</ElementItem>
+            {/* <ElementItem icon={<Video size={14} />}>Video</ElementItem> */}
           </div>
         </div>
 
         <div className="group-wrapper mb-3">
-          <p className="text-xs px-3 mb-2 text-secondary">Form</p>
+          <p className="text-xs px-3 mb-2 text-secondary">Components</p>
           <div className="pl-3">
-            <ElementItem icon={<LucideTextCursorInput size={14} />}>
-              Input
-            </ElementItem>
             <ElementItem icon={<CircleDot size={14} />}>Button</ElementItem>
           </div>
         </div>

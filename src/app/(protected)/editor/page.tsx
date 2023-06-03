@@ -1,28 +1,37 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { setNode } from "@/redux/slices/nodeSlice";
+import { PopupSliceInterface } from "@/redux/slices/popupSlice";
+import { Dispatch } from "@reduxjs/toolkit";
 import React from "react";
 import Moveable from "react-moveable";
 import Selecto from "react-selecto";
 
 const Editor = () => {
-  const router = useRouter();
+  const dispatch: Dispatch = useAppDispatch();
+  const popupSlice: PopupSliceInterface = useAppSelector(
+    (state) => state.popup
+  );
 
   const [targets, setTargets] = React.useState<Array<SVGElement | HTMLElement>>(
     []
   );
   const moveableRef = React.useRef<Moveable>(null);
   const selectoRef = React.useRef<Selecto>(null);
-  const cubes = [];
-
-  for (let i = 0; i < 6; ++i) {
-    cubes.push(i);
-  }
 
   return (
-    <div className="w-full select-none h-full flex items-center justify-center">
+    <div className="w-full select-none h-full flex flex-col gap-1 items-center justify-center">
+      <h2
+        onClick={() => {
+          dispatch(setNode({ id: "bg" }));
+        }}
+        className="w-11/12 text-xs  text-secondary ml-5"
+      >
+        Popup Bg
+      </h2>
       <div
-        id="popup"
+        id="popup-area"
         style={{
           width: "700px",
           height: "400px",
@@ -59,7 +68,7 @@ const Editor = () => {
         ></Moveable>
         <Selecto
           ref={selectoRef}
-          dragContainer={"#popup"}
+          dragContainer={"#popup-area"}
           selectableTargets={[".selecto-area .element"]}
           hitRate={0}
           selectByClick={true}
@@ -79,7 +88,7 @@ const Editor = () => {
           onSelectEnd={(e) => {
             const moveable = moveableRef.current!;
             if (e.selected.length === 1) {
-              router.replace(`/editor?node=${e.selected[0].id}`);
+              dispatch(setNode({ id: e.selected[0].id }));
             }
             if (e.isDragStart) {
               e.inputEvent.preventDefault();
@@ -93,8 +102,12 @@ const Editor = () => {
         ></Selecto>
 
         <div className="elements text-black relative selecto-area">
-          <h1 id="title" className="element text-2xl font-semibold">
-            Hello World
+          <h1
+            style={JSON.parse(popupSlice.title_style)}
+            id="title"
+            className="element text-2xl font-semibold"
+          >
+            {popupSlice.title_value}
           </h1>
           <p className="element" id="subtitle">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis

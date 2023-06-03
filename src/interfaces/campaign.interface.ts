@@ -1,7 +1,7 @@
 export interface CampaignInterface {
   name: string;
   description: string;
-  //   TODO: make required
-  startDate?: Date;
-  endDate?: Date;
+  start_date?: Date;
+  end_date?: Date;
+  is_recurring: boolean;
 }

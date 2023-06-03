@@ -42,11 +42,13 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
       ? {
           name: "",
           description: "",
+          is_recurring: false,
         }
       : initialData!
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const [date, setDate] = React.useState<Date>();
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -59,7 +61,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
     setLoading(true);
     try {
       const newCampaign: any = await createCampaignDocument(data);
-      setData({ name: "", description: "" });
+      setData({ name: "", description: "", is_recurring: false });
       toast({
         title: "Campaign Created",
       });
@@ -104,7 +106,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
         />
       </div>
 
-      {/* <div className="mb-4">
+      <div className="mb-4">
         <label className="block mb-2 text-xs text-secondary font-medium">
           Start Date <span className="text-red-500">*</span>
         </label>
@@ -113,13 +115,13 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
             <Button
               variant={"outline"}
               className={cn(
-                "w-[280px] justify-start text-left font-normal",
-                !date && "text-muted-foreground"
+                "w-full justify-start border-secondary/5 bg-foreground text-left font-normal",
+                !startDate && "text-muted-foreground"
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? (
-                format(date, "PPP")
+              {startDate ? (
+                format(startDate, "PPP")
               ) : (
                 <span className="text-secondary">Pick a date</span>
               )}
@@ -129,20 +131,62 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
             <Calendar
               required
               mode="single"
-              selected={date}
-              onSelect={setDate}
+              selected={startDate}
+              onSelect={setStartDate}
               initialFocus
             />
           </PopoverContent>
         </Popover>
-      </div> */}
+      </div>
+
+      <div className="mb-4">
+        <label className="block mb-2 text-xs text-secondary font-medium">
+          End Date <span className="text-red-500">*</span>
+        </label>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-full justify-start border-secondary/5 bg-foreground text-left font-normal",
+                !endDate && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {endDate ? (
+                format(endDate, "PPP")
+              ) : (
+                <span className="text-secondary">Pick a date</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              required
+              mode="single"
+              selected={endDate}
+              onSelect={setEndDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
       <div className="mb-4">
         <label className="block mb-2 text-xs text-secondary font-medium">
           Is recurring? <span className="text-red-500">*</span>
         </label>
-        <Select required>
+        <Select
+          defaultValue={!data.is_recurring ? "no" : "yes"}
+          required
+          onValueChange={(e: string) => {
+            setData((prev) => ({ ...prev, is_recurring: e === "yes" }));
+          }}
+        >
           <SelectTrigger className="w-full">
-            <SelectValue className="text-secondary" placeholder="Yes/No" />
+            <SelectValue
+              placeholder={<span className="text-secondary">Yes/No</span>}
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="yes">Yes</SelectItem>

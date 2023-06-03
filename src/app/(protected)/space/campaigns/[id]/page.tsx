@@ -18,13 +18,13 @@ const ManageCampaign = () => {
   const [campaign, setCampaign] = useState<CampaignInterface>({
     name: "",
     description: "",
+    is_recurring: false,
   });
 
   const fetchCampaign = async () => {
     const campaignData = await getCampaignDocument(pathname.split("/")[3]);
     setCampaign(campaignData);
     setLoading(false);
-    console.log(campaignData);
   };
 
   useEffect(() => {
