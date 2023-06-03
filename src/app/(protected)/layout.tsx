@@ -1,6 +1,7 @@
 "use client";
 
-import { Skeleton } from "@/components/ui/skeleton";
+import Logo from "@/components/Logo";
+import { Toaster } from "@/components/ui/toaster";
 import { getSession } from "@/lib/services/auth.service";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -17,8 +18,6 @@ const ProtectedLayout: React.FC<Props> = ({ children }) => {
     const checkSession = async () => {
       try {
         const session = await getSession();
-        console.log(session);
-
         if (!session) {
           router.push("/login");
           localStorage.clear();
@@ -36,18 +35,15 @@ const ProtectedLayout: React.FC<Props> = ({ children }) => {
     <>
       {loading ? (
         <>
-          <div className="p-4 flex gap-5">
-            <Skeleton className="w-[200px] h-screen rounded-lg" />
-            <div className="flex flex-col gap-5 w-10/12">
-              <Skeleton className="w-full h-[50px] rounded-lg" />
-              <div className="flex items-center gap-5 flex-wrap py-1">
-                <Skeleton className="w-full h-[900px] rounded-lg" />
-              </div>
-            </div>
-          </div>
+          <main className="w-screen h-screen fixed flex items-center justify-center">
+            <Logo className="animate-pulse" />
+          </main>
         </>
       ) : (
-        <>{children}</>
+        <>
+          {children}
+          <Toaster />
+        </>
       )}
     </>
   );

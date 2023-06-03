@@ -13,14 +13,15 @@ export const getAllCampaigns = async (): Promise<{
 export const createCampaignDocument = async (
   campaignData: CampaignInterface
 ): Promise<CampaignInterface> => {
-  console.log(userId());
+  console.log(campaignData);
 
   return await api.createDocument(
     process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID,
     campaignData,
     [
       Permission.read(Role.user(userId())),
-      Permission.write(Role.user(userId())),
+      Permission.update(Role.user(userId())),
+      Permission.delete(Role.user(userId())),
     ]
   );
 };

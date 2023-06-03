@@ -14,6 +14,16 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { CampaignInterface } from "@/interfaces/campaign.interface";
 import { createCampaignDocument } from "@/lib/services/campaign.service";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CampaignFormProps {
   isCreating: boolean;
@@ -25,6 +35,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
   initialData,
 }) => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const [data, setData] = useState<CampaignInterface>(
     isCreating
@@ -35,6 +46,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
       : initialData!
   );
   const [loading, setLoading] = useState<boolean>(false);
+  const [date, setDate] = React.useState<Date>();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -45,10 +57,23 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
   const handleCreateCampaign = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const newCampaign: any = await createCampaignDocument(data);
-    setData({ name: "", description: "" });
-    setLoading(false);
-    router.push(`/space/campaigns/${newCampaign.$id}`);
+    try {
+      const newCampaign: any = await createCampaignDocument(data);
+      setData({ name: "", description: "" });
+      toast({
+        title: "Campaign Created",
+      });
+      setLoading(false);
+      router.push(`/space/campaigns/${newCampaign.$id}`);
+    } catch (err: any) {
+      console.log(err);
+      toast({
+        variant: "destructive",
+        title: "Cannot create campaign",
+        description: err.message,
+      });
+      setLoading(false);
+    }
   };
 
   return (
@@ -78,6 +103,39 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
           placeholder="Campaign Description"
         />
       </div>
+
+      {/* <div className="mb-4">
+        <label className="block mb-2 text-xs text-secondary font-medium">
+          Start Date <span className="text-red-500">*</span>
+        </label>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[280px] justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? (
+                format(date, "PPP")
+              ) : (
+                <span className="text-secondary">Pick a date</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              required
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div> */}
       <div className="mb-4">
         <label className="block mb-2 text-xs text-secondary font-medium">
           Is recurring? <span className="text-red-500">*</span>

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { CampaignInterface } from "@/interfaces/campaign.interface";
 import CampaignLoadingSkeleton from "./components/CampaignLoadingSkeleton";
 import { getCampaignDocument } from "@/lib/services/campaign.service";
+import Link from "next/link";
 
 const ManageCampaign = () => {
   const pathname: string = usePathname();
@@ -71,9 +72,11 @@ const ManageCampaign = () => {
                 <h2 className="text-sm mb-4 text-secondary/70">
                   You haven&apos;t created any template yet
                 </h2>
-                <Button className="bg-secondary/10 hover:bg-secondary/5">
-                  Select a template
-                </Button>
+                <Link href={"/editor"}>
+                  <Button className="bg-secondary/10 hover:bg-secondary/5">
+                    Select a template
+                  </Button>
+                </Link>
               </>
             )}
             {/* </div> */}
