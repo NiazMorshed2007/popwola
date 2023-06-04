@@ -1,7 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+export type SupportedNodeTypes = "title" | "subtitle" | "image" | "bg";
+
 interface NodeInterface {
-  id: string;
+  id: SupportedNodeTypes;
 }
 
 const initialNodeState: NodeInterface = { id: "title" };
@@ -17,5 +19,6 @@ export const nodeSlice = createSlice({
 });
 
 export const { setNode } = nodeSlice.actions;
-export const selectNode = (state: { node: NodeInterface }) => state.node.id;
+export const selectSelectedNode = (state: { node: NodeInterface }) =>
+  state.node.id;
 export default nodeSlice.reducer;

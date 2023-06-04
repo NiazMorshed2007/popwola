@@ -27,6 +27,7 @@
     "date-fns": "^2.30.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.224.0",
     "next": "13.4.4",
     "postcss": "8.4.24",
@@ -44,6 +45,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.195",
     "encoding": "^0.1.13"
   }
 }

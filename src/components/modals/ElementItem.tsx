@@ -10,7 +10,7 @@ const ElementItem: React.FC<Props> = (props) => {
   return (
     <div
       {...rest}
-      className={`flex items-center text-sm cursor-pointer transition-all hover:bg-foreground rounded-lg gap-2 p-2 px-2 ${className}`}
+      className={`flex items-center text-sm cursor-pointer border border-dark transition-all hover:bg-foreground rounded-lg gap-2 p-2 px-2 ${className}`}
     >
       {icon}
       <span className="text-sm">{children}</span>

@@ -1,22 +1,26 @@
 "use client";
-import { useAppSelector } from "@/hooks/reduxHooks";
-import { Image } from "lucide-react";
-import { FileType, Layers } from "lucide-react";
+import { useSelectedNode } from "@/hooks/selectedNodeHook";
+import { FileType, Image, Layers } from "lucide-react";
 import React from "react";
-import ValueCell from "./PropertiesCells/ValueCell";
+import ValueCell from "../../../../../components/editor/cells/value/ValueCell";
+import BasicCell from "@/components/editor/cells/basic/BasicCell";
 
 const PropertiesSidebar = () => {
-  const selectedNode: string = useAppSelector((state) => state.node.id);
+  const selectedNode = useSelectedNode();
 
   const iconRenderer = (): React.ReactNode => {
-    if (selectedNode === "bg") return <Layers size={14} />;
-    if (
-      selectedNode === "title" ||
-      selectedNode === "subtitle" ||
-      selectedNode === "description"
-    )
-      return <FileType size={14} />;
-    if (selectedNode === "image") return <Image size={14} />;
+    switch (selectedNode) {
+      case "bg":
+        return <Layers size={14} />;
+      case "title":
+      case "subtitle":
+        // case "description":
+        return <FileType size={14} />;
+      case "image":
+        return <Image size={14} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -26,6 +30,7 @@ const PropertiesSidebar = () => {
       </h2>
       <div className="py-4">
         <ValueCell />
+        <BasicCell />
       </div>
     </aside>
   );

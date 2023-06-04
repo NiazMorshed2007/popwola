@@ -1,9 +1,73 @@
 "use client";
 
 import ElementItem from "@/components/modals/ElementItem";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { useSelectedNode } from "@/hooks/selectedNodeHook";
+import { SupportedNodeTypes, setNode } from "@/redux/slices/nodeSlice";
 import { CircleDot, FileType, Image, Layers, ListTree } from "lucide-react";
+import React from "react";
+
+interface GroupMap {
+  group_name: "popup" | "text" | "media" | "components";
+  elems: IElementMap[];
+}
+
+interface IElementMap {
+  icon: React.ReactNode;
+  id: SupportedNodeTypes;
+  title: string;
+}
 
 const ElementsMap = () => {
+  const selectedNode = useSelectedNode();
+  const dispatch = useAppDispatch();
+  const elementsMap: GroupMap[] = [
+    {
+      group_name: "popup",
+      elems: [
+        {
+          icon: <Layers size={15} />,
+          id: "bg",
+          title: "Popup bg",
+        },
+      ],
+    },
+    {
+      group_name: "text",
+      elems: [
+        {
+          icon: <FileType size={14} />,
+          id: "title",
+          title: "Title",
+        },
+        {
+          icon: <FileType size={14} />,
+          id: "subtitle",
+          title: "Subtitle",
+        },
+      ],
+    },
+    {
+      group_name: "media",
+      elems: [
+        {
+          icon: <Image size={14} />,
+          id: "image",
+          title: "Image",
+        },
+      ],
+    },
+    {
+      group_name: "components",
+      elems: [
+        {
+          icon: <CircleDot size={14} />,
+          id: "title", //TODO: add button as supported type
+          title: "Button",
+        },
+      ],
+    },
+  ];
   return (
     <aside className="bg-dark rounded-xl w-[280px] h-full border border-secondary/10">
       <h2 className="border-b bg-foreground text-primary/60 rounded-tl-xl rounded-tr-xl flex items-center gap-2 border-secondary/5 p-4 py-2 text-sm">
@@ -11,32 +75,31 @@ const ElementsMap = () => {
         Groups
       </h2>
       <div className="flex flex-col py-2 gap-1 px-1">
-        <ElementItem className="mb-4" icon={<Layers size={14} />}>
-          Popup Bg
-        </ElementItem>
-
-        <div className="group-wrapper mb-3">
-          <p className="text-xs px-3 mb-2 text-secondary">Text</p>
-          <div className="pl-3">
-            <ElementItem icon={<FileType size={14} />}>Title</ElementItem>
-            <ElementItem icon={<FileType size={14} />}>Sub Title</ElementItem>
-            <ElementItem icon={<FileType size={14} />}>Description</ElementItem>
-          </div>
-        </div>
-
-        <div className="group-wrapper mb-3">
-          <p className="text-xs px-3 mb-2 text-secondary">Media</p>
-          <div className="pl-3">
-            <ElementItem icon={<Image size={14} />}>Image</ElementItem>
-            {/* <ElementItem icon={<Video size={14} />}>Video</ElementItem> */}
-          </div>
-        </div>
-
-        <div className="group-wrapper mb-3">
-          <p className="text-xs px-3 mb-2 text-secondary">Components</p>
-          <div className="pl-3">
-            <ElementItem icon={<CircleDot size={14} />}>Button</ElementItem>
-          </div>
+        <div className="flex flex-col py-2 gap-1 px-1">
+          {elementsMap.map((group) => (
+            <div key={group.group_name} className="group-wrapper mb-3">
+              <p className="text-xs capitalize px-3 mb-2 text-secondary">
+                {group.group_name}
+              </p>
+              <div className="pl-3">
+                {group.elems.map((element) => (
+                  <ElementItem
+                    className={`${
+                      selectedNode === element.id &&
+                      "bg-foreground border-secondary"
+                    }`}
+                    onClick={() => {
+                      dispatch(setNode({ id: element.id }));
+                    }}
+                    key={element.id}
+                    icon={element.icon}
+                  >
+                    {element.title}
+                  </ElementItem>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </aside>

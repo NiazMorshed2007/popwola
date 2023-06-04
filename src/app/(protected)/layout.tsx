@@ -2,6 +2,7 @@
 
 import Logo from "@/components/Logo";
 import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 import { getSession } from "@/lib/services/auth.service";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ interface Props {
 
 const ProtectedLayout: React.FC<Props> = ({ children }) => {
   const router = useRouter();
+  const { toast } = useToast();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -19,7 +21,11 @@ const ProtectedLayout: React.FC<Props> = ({ children }) => {
       try {
         const session = await getSession();
         if (!session) {
-          router.push("/login");
+          toast({
+            variant: "destructive",
+            title: "Session Expired",
+          });
+          // router.push("/login");
           localStorage.clear();
         }
         setLoading(false);
