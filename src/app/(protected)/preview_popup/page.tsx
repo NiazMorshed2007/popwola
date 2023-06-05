@@ -11,7 +11,6 @@ const PreviewPage = () => {
       localStorage.getItem("popup_preview") as string
     );
     setPopupPreviewState(popup_state_local);
-    console.log(popup_state_local);
   }, []);
   return (
     <main>

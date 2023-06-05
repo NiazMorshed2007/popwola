@@ -43,7 +43,7 @@ const initialPopupState: PopupSliceInterface = {
     fontSize: "44px",
     transform: "translate(10px, 10px)",
     fontWeight: "600",
-    textAlign: "center",
+    textAlign: "left",
     letterSpacing: "0px",
   },
   subtitle_value: "Subtitle",
@@ -54,7 +54,7 @@ const initialPopupState: PopupSliceInterface = {
     fontSize: "16px",
     transform: "translate(10px, 10px)",
     fontWeight: "300",
-    textAlign: "center",
+    textAlign: "left",
     letterSpacing: "0px",
   },
   img_url:
@@ -63,6 +63,7 @@ const initialPopupState: PopupSliceInterface = {
     width: "100px",
     height: "100px",
     transform: "translate(10px, 10px)",
+    objectFit: "cover",
   },
 };
 

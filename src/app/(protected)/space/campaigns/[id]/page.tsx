@@ -9,6 +9,7 @@ import { CampaignInterface } from "@/interfaces/campaign.interface";
 import CampaignLoadingSkeleton from "./components/CampaignLoadingSkeleton";
 import { getCampaignDocument } from "@/lib/services/campaign.service";
 import Link from "next/link";
+import SmallPreview from "@/components/editor/preview/SmallPreview";
 
 const ManageCampaign = () => {
   const pathname: string = usePathname();
@@ -60,7 +61,9 @@ const ManageCampaign = () => {
           </div>
           <div className="right h-full flex items-center flex-col justify-center">
             {/* <div> */}
-            <div className="w-[400px] h-[200px] mb-5 bg-secondary/5 rounded-xl"></div>
+            <div className="w-[400px] h-[200px] mb-5 bg-secondary/5 rounded-xl">
+              <SmallPreview height="100%" />
+            </div>
             {isCreating ? (
               <>
                 <h2 className="text-sm mb-4 text-secondary/70">

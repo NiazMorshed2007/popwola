@@ -28,7 +28,7 @@ const ProtectedLayout: React.FC<Props> = ({ children }) => {
             title: "Session Expired",
           });
           router.push("/login");
-          localStorage.clear();
+          // localStorage.clear();
         }
         setLoading(false);
       } catch (error) {
