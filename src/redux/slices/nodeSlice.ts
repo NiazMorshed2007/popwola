@@ -1,6 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export type SupportedNodeTypes = "title" | "subtitle" | "image" | "bg";
+export type SupportedNodeTypes =
+  | "title"
+  | "subtitle"
+  | "image"
+  | "bg"
+  | "button";
 
 interface NodeInterface {
   id: SupportedNodeTypes;

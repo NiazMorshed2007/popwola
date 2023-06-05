@@ -37,6 +37,13 @@ const PreviewPage = () => {
             src={popupPreviewState?.img_url}
             alt=""
           />
+          <button
+            id="button"
+            className="element"
+            style={popupPreviewState?.button_style}
+          >
+            {popupPreviewState?.button_value}
+          </button>
         </div>
       </div>
 

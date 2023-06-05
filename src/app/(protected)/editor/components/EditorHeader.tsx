@@ -1,4 +1,5 @@
 import Logo from "@/components/Logo";
+import { convertStylesToCSS } from "@/components/editor/helpers/convertToCssString";
 import { Button } from "@/components/ui/button";
 import { usePopupSlice } from "@/hooks/popupSliceHook";
 import { Cloud, CornerUpLeft, Eye, Link2, Rocket } from "lucide-react";
@@ -6,6 +7,7 @@ import Link from "next/link";
 
 const EditorHeader = () => {
   const { popupSlice } = usePopupSlice();
+
   return (
     <header className="bg-dark p-3 flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -25,7 +27,11 @@ const EditorHeader = () => {
         Coupon Campaign
       </h2>
       <div className="actions flex items-center gap-5">
-        <Button>
+        <Button
+          onClick={() => {
+            console.log(convertStylesToCSS(popupSlice.title_style));
+          }}
+        >
           <Cloud size={14} className="mr-3" />
           Save
         </Button>

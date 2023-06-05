@@ -62,7 +62,7 @@ const ElementsMap = () => {
       elems: [
         {
           icon: <CircleDot size={14} />,
-          id: "title", //TODO: add button as supported type
+          id: "button",
           title: "Button",
         },
       ],
@@ -70,7 +70,7 @@ const ElementsMap = () => {
   ];
   return (
     <aside className="bg-dark rounded-xl w-[280px] h-full border border-secondary/10">
-      <h2 className="border-b bg-foreground text-primary/60 rounded-tl-xl rounded-tr-xl flex items-center gap-2 border-secondary/5 p-4 py-2 text-sm">
+      <h2 className="border-b bg-foreground text-primary/50 rounded-tl-xl rounded-tr-xl flex items-center gap-2 border-secondary/5 p-4 py-2 text-sm">
         <ListTree size={15} />
         Groups
       </h2>
@@ -86,7 +86,7 @@ const ElementsMap = () => {
                   <ElementItem
                     className={`${
                       selectedNode === element.id &&
-                      "bg-foreground border-secondary"
+                      "bg-foreground border-secondary/10"
                     }`}
                     onClick={() => {
                       dispatch(setNode({ id: element.id }));

@@ -9,7 +9,8 @@
 }
 
 body {
-  @apply bg-dark text-primary overflow-hidden;
+  @apply bg-dark text-primary;
+  overflow: hidden;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

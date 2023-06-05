@@ -2,8 +2,8 @@ import { selectSelectedNode } from "@/redux/slices/nodeSlice";
 import {
   PopupSliceInterface,
   selectBg,
+  selectButtonStyle,
   selectImageStyle,
-  selectPopup,
   selectSubtitleStyle,
   selectTitleStyle,
 } from "@/redux/slices/popupSlice";
@@ -17,6 +17,7 @@ export const usePopupSlice = () => {
   const subtitleStyle = useAppSelector(selectSubtitleStyle);
   const imageStyle = useAppSelector(selectImageStyle);
   const bgStyle = useAppSelector(selectBg);
+  const buttonStyle = useAppSelector(selectButtonStyle);
 
   const selectedNode = useAppSelector(selectSelectedNode);
 
@@ -27,6 +28,10 @@ export const usePopupSlice = () => {
       return subtitleStyle;
     } else if (selectedNode === "image") {
       return imageStyle;
+    } else if (selectedNode === "button") {
+      return buttonStyle;
+    } else if (selectedNode === "bg") {
+      return bgStyle;
     }
   };
 
@@ -36,6 +41,7 @@ export const usePopupSlice = () => {
     subtitleStyle,
     imageStyle,
     bgStyle,
+    buttonStyle,
     targetedNodeStyle,
   };
 };

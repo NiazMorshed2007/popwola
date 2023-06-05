@@ -12,6 +12,8 @@ export interface PopupSliceInterface {
   subtitle_style: CSSProperties;
   img_url: string;
   image_style: CSSProperties;
+  button_value: string;
+  button_style: CSSProperties;
 }
 
 const transformStyleMap: {
@@ -19,23 +21,26 @@ const transformStyleMap: {
   subtitle: "subtitle_style";
   image: "image_style";
   bg: "bg";
+  button: "button_style";
 } = {
   title: "title_style",
   subtitle: "subtitle_style",
   image: "image_style",
   bg: "bg",
+  button: "button_style",
 };
 
 const initialPopupState: PopupSliceInterface = {
   name: "popup",
   bg: {
-    background: "#ffffff",
+    backgroundColor: "#ffffff",
     width: "700px",
     height: "400px",
     overflow: "hidden",
+    position: "relative",
     borderRadius: "10px",
   },
-  title_value: "Title",
+  title_value: "Edit this Title",
   title_style: {
     color: "#000000",
     width: "300px",
@@ -44,26 +49,46 @@ const initialPopupState: PopupSliceInterface = {
     transform: "translate(10px, 10px)",
     fontWeight: "600",
     textAlign: "left",
+    position: "absolute",
     letterSpacing: "0px",
   },
-  subtitle_value: "Subtitle",
+  subtitle_value: "Edit this Subtitle",
   subtitle_style: {
     color: "#000000",
     width: "300px",
-    height: "50px",
-    fontSize: "16px",
-    transform: "translate(10px, 10px)",
+    height: "30px",
+    fontSize: "26px",
+    transform: "translate(10px, 80px)",
+    position: "absolute",
     fontWeight: "300",
     textAlign: "left",
     letterSpacing: "0px",
   },
   img_url:
-    "https://cloud.appwrite.io/v1/storage/buckets/647d8d9393004459fd6d/files/647dbb4eed24a753d3be/view?project=6475ca5453bd7b131cd8&mode=admin",
+    "https://cloud.appwrite.io/v1/storage/buckets/647d8d9393004459fd6d/files/647e11389c8d1b90f91c/view?project=6475ca5453bd7b131cd8&mode=admin",
+  // "https://cloud.appwrite.io/v1/storage/buckets/647d8d9393004459fd6d/files/647dbb4eed24a753d3be/view?project=6475ca5453bd7b131cd8&mode=admin",
   image_style: {
+    width: "200px",
+    height: "200px",
+    transform: "translate(420px, 40px)",
+    position: "absolute",
+    // objectFit: "conta",
+  },
+  button_value: "Click here",
+  button_style: {
+    color: "#ffffff",
     width: "100px",
-    height: "100px",
-    transform: "translate(10px, 10px)",
-    objectFit: "cover",
+    backgroundColor: "#000000",
+    height: "50px",
+    fontSize: "16px",
+    transform: "translate(10px, 130px)",
+    fontWeight: "600",
+    // position: "absolute",
+    textAlign: "center",
+    letterSpacing: "0px",
+    background: "#000000",
+    borderRadius: "10px",
+    position: "absolute",
   },
 };
 
@@ -88,6 +113,8 @@ export const popupSlice = createSlice({
         state.subtitle_value = value;
       } else if (node === "image") {
         state.img_url = value;
+      } else if (node === "button") {
+        state.button_value = value;
       }
     },
 
@@ -158,5 +185,10 @@ export const selectSubtitleStyle = createSelector(
 export const selectImageStyle = createSelector(
   [selectPopup],
   (popup) => popup.image_style
+);
+
+export const selectButtonStyle = createSelector(
+  [selectPopup],
+  (popup) => popup.button_style
 );
 export default popupSlice.reducer;

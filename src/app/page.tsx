@@ -1,16 +1,15 @@
-import Logo from "@/components/Logo";
-import Link from "next/link";
-import React from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import HeroSection from "./components/HeroSection";
+import Header from "./components/Header";
 
 const Home = () => {
   return (
-    <div>
-      <Logo />
-      <h1>Hey! You&apos;re on the home</h1>
-      <Link href={"/signup"}>
-        <button className="bg-gray-600 px-10">go</button>
-      </Link>
-    </div>
+    <main>
+      <ScrollArea className="h-screen">
+        <Header />
+        <HeroSection />
+      </ScrollArea>
+    </main>
   );
 };
 

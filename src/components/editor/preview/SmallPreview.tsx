@@ -1,6 +1,5 @@
 import { usePopupSlice } from "@/hooks/popupSliceHook";
 import React from "react";
-import Preview from "./Preview";
 
 interface Props {
   width?: string;
@@ -8,19 +7,48 @@ interface Props {
 }
 
 const SmallPreview: React.FC<Props> = ({ width, height }) => {
-  const { popupSlice } = usePopupSlice();
+  const { titleStyle, subtitleStyle, imageStyle, popupSlice } = usePopupSlice();
+
   return (
     <div
       style={{
         ...popupSlice.bg,
-        width: width || "100%",
-        height: height || "45%",
+        height: "100%",
+        width: "100%",
+        scale: 0.9,
+        overflow: "auto",
       }}
-      className={""}
     >
-      <div className="scale-90">
-        <Preview />
-      </div>
+      <h1
+        style={{
+          ...titleStyle,
+          //   scale: 0.6,
+        }}
+        id="title"
+        className="element"
+      >
+        {popupSlice.title_value}
+      </h1>
+      <p
+        style={{
+          ...subtitleStyle,
+          //   scale: 0.6,
+        }}
+        className="element"
+        id="subtitle"
+      >
+        {popupSlice.subtitle_value}
+      </p>
+      <img
+        style={{
+          ...imageStyle,
+          //   scale: 0.2,
+        }}
+        id="image"
+        className="element"
+        src={popupSlice.img_url}
+        alt=""
+      />
     </div>
   );
 };

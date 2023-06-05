@@ -33,7 +33,6 @@ const AlignNSpacing = () => {
   return (
     <>
       <div className="alignments flex gap-3 items-center">
-        {/* <p className="text-xs">Align</p> */}
         <div className="flex items-center">
           {alignments.map((alignment) => (
             <div

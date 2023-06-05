@@ -23,6 +23,8 @@ const ValueCell = () => {
         return popupSlice.title_value;
       case "subtitle":
         return popupSlice.subtitle_value;
+      case "button":
+        return popupSlice.button_value;
       default:
         return "";
     }

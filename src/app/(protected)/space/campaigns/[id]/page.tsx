@@ -61,8 +61,8 @@ const ManageCampaign = () => {
           </div>
           <div className="right h-full flex items-center flex-col justify-center">
             {/* <div> */}
-            <div className="w-[400px] h-[200px] mb-5 bg-secondary/5 rounded-xl">
-              <SmallPreview height="100%" />
+            <div className="w-[400px] h-[200px] py-2 mb-5 bg-secondary/5 rounded-xl">
+              <SmallPreview height="200px" />
             </div>
             {isCreating ? (
               <>
