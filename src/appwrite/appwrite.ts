@@ -1,5 +1,5 @@
 import { LoginInterface, RegisterInterface } from "@/interfaces/auth.interface";
-import { Client as Appwrite, Databases, Account, ID } from "appwrite";
+import { Account, Client as Appwrite, Databases, ID, Storage } from "appwrite";
 
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 
@@ -16,8 +16,9 @@ let api: any = {
       .setProject("6475ca5453bd7b131cd8");
     const account = new Account(appwrite);
     const database = new Databases(appwrite);
+    const storage = new Storage(appwrite);
 
-    api.sdk = { database, account };
+    api.sdk = { database, account, storage };
     return api.sdk;
   },
 
@@ -38,8 +39,6 @@ let api: any = {
   },
 
   createSession: (loginBody: LoginInterface) => {
-    console.log("loginBody", loginBody);
-
     return api
       .provider()
       .account.createEmailSession(loginBody.email, loginBody.password);
@@ -82,6 +81,18 @@ let api: any = {
   //     .provider()
   //     .database.deleteDocument(databaseId, collectionId, documentId);
   // },
+
+  createFile: (file: any) => {
+    return api
+      .provider()
+      .storage.createFile(process.env.NEXT_PUBLIC_BUCKET_ID, ID.unique(), file);
+  },
+
+  getFilePreview: (fileId: string) => {
+    return api
+      .provider()
+      .storage.getFileView(process.env.NEXT_PUBLIC_BUCKET_ID, fileId);
+  },
 };
 
 export default api;

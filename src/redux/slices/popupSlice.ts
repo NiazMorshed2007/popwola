@@ -57,7 +57,8 @@ const initialPopupState: PopupSliceInterface = {
     textAlign: "center",
     letterSpacing: "0px",
   },
-  img_url: "",
+  img_url:
+    "https://cloud.appwrite.io/v1/storage/buckets/647d8d9393004459fd6d/files/647dbb4eed24a753d3be/view?project=6475ca5453bd7b131cd8&mode=admin",
   image_style: {
     width: "100px",
     height: "100px",
@@ -84,6 +85,8 @@ export const popupSlice = createSlice({
         state.title_value = value;
       } else if (node === "subtitle") {
         state.subtitle_value = value;
+      } else if (node === "image") {
+        state.img_url = value;
       }
     },
 

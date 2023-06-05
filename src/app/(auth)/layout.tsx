@@ -16,22 +16,22 @@ const AuthLayout: React.FC<Props> = ({ children }) => {
   const [auth, setAuth] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const session = await getSession();
-        if (session) {
-          setAuth(true);
-          router.replace("/space");
-          setLoading(false);
-        }
-      } catch (error) {
-        setAuth(false);
-        setLoading(false);
-      }
-    };
-    checkSession();
-  }, []);
+  // useEffect(() => {
+  //   const checkSession = async () => {
+  //     try {
+  //       const session = await getSession();
+  //       if (session) {
+  //         setAuth(true);
+  //         router.replace("/space");
+  //         setLoading(false);
+  //       }
+  //     } catch (error) {
+  //       setAuth(false);
+  //       setLoading(false);
+  //     }
+  //   };
+  //   checkSession();
+  // }, []);
 
   return (
     <>

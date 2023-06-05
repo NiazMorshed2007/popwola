@@ -27,7 +27,7 @@ const WeightNSize = () => {
           dispatch(setStyle({ node: selectedNode, style: { fontWeight: e } }));
         }}
       >
-        <SelectTrigger className="w-[100px]">
+        <SelectTrigger className="w-[120px]">
           <SelectValue
             style={{
               fontSize: "10px",

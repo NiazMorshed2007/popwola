@@ -1,7 +1,6 @@
 "use client";
 
 import { usePopupSlice } from "@/hooks/popupSliceHook";
-import React from "react";
 
 const Preview = () => {
   const { titleStyle, subtitleStyle, imageStyle, popupSlice } = usePopupSlice();
@@ -17,7 +16,7 @@ const Preview = () => {
         style={imageStyle}
         id="image"
         className="element"
-        src="/demo.png"
+        src={popupSlice.img_url}
         alt=""
       />
     </div>

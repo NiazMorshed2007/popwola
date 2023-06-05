@@ -35,7 +35,7 @@ const PreviewPage = () => {
             style={popupPreviewState?.image_style}
             id="image"
             className="element"
-            src="/demo.png"
+            src={popupPreviewState?.img_url}
             alt=""
           />
         </div>

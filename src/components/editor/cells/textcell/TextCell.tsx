@@ -21,10 +21,10 @@ const TextCell = () => {
           <ChevronDown size={14} />
         </CollapsibleTrigger>
         <CollapsibleContent className="px-4 pb-3 flex flex-col gap-5 pt-2">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-7 justify-between">
             <WeightNSize />
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-6 justify-between">
             <AlignNSpacing />
           </div>
         </CollapsibleContent>
