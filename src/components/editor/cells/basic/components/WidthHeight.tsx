@@ -7,11 +7,11 @@ import { setStyle } from "@/redux/slices/popupSlice";
 import { useSelectedNode } from "@/hooks/selectedNodeHook";
 
 const WidthHeight = () => {
-  const { targetedNodeParsedStyle } = usePopupSlice();
+  const { targetedNodeStyle } = usePopupSlice();
   const selectedNode = useSelectedNode();
   const dispatch = useAppDispatch();
-  const width = removePx(targetedNodeParsedStyle()?.width! as string);
-  const height = removePx(targetedNodeParsedStyle()?.height! as string);
+  const width = removePx(targetedNodeStyle()?.width! as string);
+  const height = removePx(targetedNodeStyle()?.height! as string);
   return (
     <>
       <CellInput

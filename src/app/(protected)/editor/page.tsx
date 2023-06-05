@@ -13,11 +13,12 @@ import Moveable from "react-moveable";
 import { useSelector } from "react-redux";
 import Selecto from "react-selecto";
 import Preview from "../../../components/editor/preview/Preview";
+import { usePopupSlice } from "@/hooks/popupSliceHook";
 
 const Editor = () => {
   const dispatch: Dispatch = useAppDispatch();
   const selectedNode = useSelector(selectSelectedNode);
-
+  const { bgStyle } = usePopupSlice();
   const [targets, setTargets] = React.useState<Array<SVGElement | HTMLElement>>(
     []
   );
@@ -51,14 +52,7 @@ const Editor = () => {
       >
         Popup Bg
       </h2>
-      <div
-        id="popup-area"
-        style={{
-          width: "700px",
-          height: "400px",
-        }}
-        className="popup overflow-hidden bg-white rounded-xl relative"
-      >
+      <div id="popup-area" style={bgStyle} className="popup">
         <Moveable
           ref={moveableRef}
           draggable={true}

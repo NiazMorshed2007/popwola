@@ -28,7 +28,13 @@ const transformStyleMap: {
 
 const initialPopupState: PopupSliceInterface = {
   name: "popup",
-  bg: { background: "#ffffff" },
+  bg: {
+    background: "#ffffff",
+    width: "700px",
+    height: "400px",
+    overflow: "hidden",
+    borderRadius: "10px",
+  },
   title_value: "Title",
   title_style: {
     color: "#000000",
@@ -36,8 +42,9 @@ const initialPopupState: PopupSliceInterface = {
     height: "50px",
     fontSize: "44px",
     transform: "translate(10px, 10px)",
-    fontWeight: "bold",
+    fontWeight: "600",
     textAlign: "center",
+    letterSpacing: "0px",
   },
   subtitle_value: "Subtitle",
   subtitle_style: {
@@ -46,8 +53,9 @@ const initialPopupState: PopupSliceInterface = {
     height: "50px",
     fontSize: "16px",
     transform: "translate(10px, 10px)",
-    fontWeight: "normal",
+    fontWeight: "300",
     textAlign: "center",
+    letterSpacing: "0px",
   },
   img_url: "",
   image_style: {

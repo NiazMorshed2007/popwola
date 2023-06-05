@@ -6,7 +6,7 @@ interface CellInputInterface {
   onChangeFn: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  label: string;
+  label: string | React.ReactNode;
 }
 
 const CellInput: React.FC<CellInputInterface> = (props) => {
@@ -14,7 +14,7 @@ const CellInput: React.FC<CellInputInterface> = (props) => {
 
   return (
     <div className="rounded-lg flex overflow-hidden border border-secondary/5">
-      <p className="text-sm px-3 bg-foreground flex items-center justify-center py-2 border-r border-secondary/5">
+      <p className="text-xs px-3 bg-foreground flex items-center justify-center py-2 border-r border-secondary/5">
         {label}
       </p>
       <Input

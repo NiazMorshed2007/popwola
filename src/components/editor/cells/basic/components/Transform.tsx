@@ -7,19 +7,11 @@ import { useAppDispatch } from "@/hooks/reduxHooks";
 import { usePopupSlice } from "@/hooks/popupSliceHook";
 
 const Transform = () => {
-  const { targetedNodeParsedStyle } = usePopupSlice();
+  const { targetedNodeStyle } = usePopupSlice();
   const dispatch = useAppDispatch();
   const selectedNode = useSelectedNode();
-  const xVal = extractTranslateValue(
-    targetedNodeParsedStyle()?.transform!,
-    "x"
-  );
-  const yVal = extractTranslateValue(
-    targetedNodeParsedStyle()?.transform!,
-    "y"
-  );
-
-  //   console.log(yVal, xVal);
+  const xVal = extractTranslateValue(targetedNodeStyle()?.transform!, "x");
+  const yVal = extractTranslateValue(targetedNodeStyle()?.transform!, "y");
 
   return (
     <>
