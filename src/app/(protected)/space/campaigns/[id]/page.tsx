@@ -1,26 +1,23 @@
 "use client";
 
 import { convertStylesToCSS } from "@/components/editor/helpers/convertToCssString";
+import { convertCSSToStyles } from "@/components/editor/helpers/stringToCss";
 import SmallPreview from "@/components/editor/preview/SmallPreview";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { usePopupSlice } from "@/hooks/popupSliceHook";
 import { CampaignInterface } from "@/interfaces/campaign.interface";
-import { PopupInterface } from "@/interfaces/popup.interface";
 import {
   getCampaignDocument,
   updateCampaignDocument,
 } from "@/lib/services/campaign.service";
 import { createPopup, getPopupDocuemnt } from "@/lib/services/popup.service";
+import { Pencil } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import CampaignForm from "./components/CampaignForm";
 import CampaignLoadingSkeleton from "./components/CampaignLoadingSkeleton";
-import { Pencil } from "lucide-react";
-import { convertCSSToStyles } from "@/components/editor/helpers/stringToCss";
-import { is } from "date-fns/locale";
-import { ID } from "appwrite";
 
 const ManageCampaign = () => {
   // temporary
