@@ -18,6 +18,9 @@ import { useEffect, useState } from "react";
 import CampaignForm from "./components/CampaignForm";
 import CampaignLoadingSkeleton from "./components/CampaignLoadingSkeleton";
 import { Pencil } from "lucide-react";
+import { convertCSSToStyles } from "@/components/editor/helpers/stringToCss";
+import { is } from "date-fns/locale";
+import { ID } from "appwrite";
 
 const ManageCampaign = () => {
   // temporary
@@ -34,26 +37,40 @@ const ManageCampaign = () => {
     is_recurring: false,
     popup_id: "",
   });
-  const [popup, setPopup] = useState<PopupInterface>();
+  const [popup, setPopup] = useState<any>();
 
   const fetchCampaign = async () => {
     const campaignData = await getCampaignDocument(pathname.split("/")[3]);
     setCampaign(campaignData);
     setLoading(false);
-    fetchPopup(campaignData.popup_id!);
+    if (campaignData.popup_id) {
+      fetchPopup(campaignData.popup_id!);
+    }
   };
 
   const fetchPopup = async (id: string) => {
     const popupData = await getPopupDocuemnt(id);
-    setPopup(popupData);
+    setPopup({
+      ...popupData,
+      bg: convertCSSToStyles(popupData.bg),
+      title_value: popupData.title_value,
+      title_style: convertCSSToStyles(popupData.title_style),
+      subtitle_value: popupData.subtitle_value,
+      subtitle_style: convertCSSToStyles(popupData.subtitle_style),
+      img_url: popupData.img_url,
+      image_style: convertCSSToStyles(popupData.image_style),
+      button_value: popupData.button_value,
+      button_style: convertCSSToStyles(popupData.button_style),
+    });
   };
 
   const selectTemplateforCampaign = async () => {
     if (popup) {
       console.log("should update popup");
     } else {
+      const { id, ...rest } = popupSlice;
       const newPopup = await createPopup({
-        ...popupSlice,
+        ...rest,
         campaign_id: campaign.$id!,
         name: campaign.name,
         bg: convertStylesToCSS(popupSlice.bg),
@@ -63,12 +80,11 @@ const ManageCampaign = () => {
         button_style: convertStylesToCSS(popupSlice.button_style),
       });
 
+      setPopup(newPopup);
+
       const updatedCampaign = await updateCampaignDocument(campaign.$id!, {
         popup_id: newPopup.$id!,
       });
-
-      console.log(newPopup, "the popup");
-      console.log(updatedCampaign, "the campaign");
     }
   };
 
@@ -107,7 +123,7 @@ const ManageCampaign = () => {
           <div className="right h-full flex items-center flex-col justify-center">
             {/* <div> */}
             <div className="w-[400px] h-[200px] mb-5 bg-secondary/5 rounded-xl">
-              <SmallPreview height="200px" />
+              {popup && !isCreating && <SmallPreview {...popup} />}
             </div>
             {isCreating ? (
               <>
@@ -117,9 +133,11 @@ const ManageCampaign = () => {
               </>
             ) : (
               <>
-                <h2 className="text-sm mb-4 text-secondary/70">
-                  You haven&apos;t created any template yet
-                </h2>
+                {!popup && !isCreating && (
+                  <h2 className="text-sm mb-4 text-secondary/70">
+                    You haven&apos;t created any template yet
+                  </h2>
+                )}
                 {/* <Link href={"/editor"}> */}
                 <div className="flex items-center gap-3">
                   <Button

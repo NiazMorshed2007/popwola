@@ -8,13 +8,11 @@ interface Props {
 const Logo: React.FC<Props> = (props) => {
   const { className } = props;
   return (
-    <Link href={"/"}>
-      <img
-        className={`w-[53px] h-[53px] ${className}`}
-        src="https://app.spline.design/static/media/spline_logo.95327944.png"
-        alt=""
-      />
-    </Link>
+    <img
+      className={`w-[60px] h-[60px] ${className}`}
+      src="/popwola-logo.svg"
+      alt=""
+    />
   );
 };
 
