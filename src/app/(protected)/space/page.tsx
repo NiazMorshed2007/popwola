@@ -1,8 +1,5 @@
-import { Activity, Pencil, Scroll } from "lucide-react";
-import React from "react";
-import { Graph } from "./components/Graph";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Dashboard = () => {
   return (
@@ -31,8 +28,8 @@ const Dashboard = () => {
                     </h3>
                   </div>
                   <p className="mb-3 text-sm text-slate-11 font-normal text-secondary/60">
-                    Click the "Create Campaign" button to start creating your
-                    campaign
+                    Click the &quot;Create Campaign&quot; button to start
+                    creating your campaign
                   </p>
                   <p className="text-xs mb-3 text-secondary">
                     You can see all your campaigns in{" "}
