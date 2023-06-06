@@ -18,9 +18,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import CampaignForm from "./components/CampaignForm";
 import CampaignLoadingSkeleton from "./components/CampaignLoadingSkeleton";
+import Preview from "@/components/editor/preview/Preview";
 
 const ManageCampaign = () => {
-  // temporary
   const { popupSlice } = usePopupSlice();
   //
 
@@ -77,8 +77,6 @@ const ManageCampaign = () => {
         button_style: convertStylesToCSS(popupSlice.button_style),
       });
 
-      setPopup(newPopup);
-
       const updatedCampaign = await updateCampaignDocument(campaign.$id!, {
         popup_id: newPopup.$id!,
       });
@@ -119,8 +117,8 @@ const ManageCampaign = () => {
           </div>
           <div className="right h-full flex items-center flex-col justify-center">
             {/* <div> */}
-            <div className="w-[400px] h-[200px] mb-5 bg-secondary/5 rounded-xl">
-              {popup && !isCreating && <SmallPreview {...popup} />}
+            <div className="w-[400px] flex items-center justify-center h-[200px] mb-5 bg-secondary/5 rounded-xl">
+              {popup.name} Popup
             </div>
             {isCreating ? (
               <>

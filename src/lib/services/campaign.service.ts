@@ -1,5 +1,5 @@
 import api from "@/appwrite/appwrite";
-import { Permission, Role } from "appwrite";
+import { Permission, Query, Role } from "appwrite";
 import { userId } from "../storage";
 import { CampaignInterface } from "@/interfaces/campaign.interface";
 
@@ -7,11 +7,14 @@ export const getAllCampaigns = async (): Promise<{
   total: number;
   documents: CampaignInterface[];
 }> => {
-  return await api.getDocuments(process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID);
+  return await api.getDocuments(
+    process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID,
+    [Query.equal("user_id", userId())]
+  );
 };
 
 export const createCampaignDocument = async (
-  campaignData: CampaignInterface
+  campaignData: CampaignInterface & { user_id: string }
 ): Promise<CampaignInterface> => {
   return await api.createDocument(
     process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID,
@@ -29,7 +32,8 @@ export const getCampaignDocument = async (
 ): Promise<CampaignInterface> => {
   return api.getDocument(
     process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID,
-    campaignId
+    campaignId,
+    [Query.equal("user_id", userId())]
   );
 };
 

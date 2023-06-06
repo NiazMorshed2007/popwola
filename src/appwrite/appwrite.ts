@@ -1,5 +1,12 @@
 import { LoginInterface, RegisterInterface } from "@/interfaces/auth.interface";
-import { Account, Client as Appwrite, Databases, ID, Storage } from "appwrite";
+import {
+  Account,
+  Client as Appwrite,
+  Databases,
+  ID,
+  Query,
+  Storage,
+} from "appwrite";
 
 const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID;
 
@@ -60,8 +67,10 @@ let api: any = {
       );
   },
 
-  getDocuments: (collectionId: string) => {
-    return api.provider().database.listDocuments(databaseId, collectionId);
+  getDocuments: (collectionId: string, query: any) => {
+    return api
+      .provider()
+      .database.listDocuments(databaseId, collectionId, query);
   },
 
   getDocument: (collectionId: string, documentId: string) => {

@@ -28,6 +28,7 @@ const EditorHeader = () => {
     try {
       setSaving(true);
       const { id, ...rest } = popupSlice as PopupSliceInterface;
+
       const updatedPopup = await updatePopupDocument(popupSlice.id, {
         ...rest,
         bg: convertStylesToCSS(popupSlice.bg),
@@ -36,6 +37,17 @@ const EditorHeader = () => {
         button_style: convertStylesToCSS(popupSlice.button_style),
         image_style: convertStylesToCSS(popupSlice.image_style),
       });
+
+      // const ready = {
+      //   ...rest,
+      //   bg: convertStylesToCSS(popupSlice.bg),
+      //   title_style: convertStylesToCSS(popupSlice.title_style),
+      //   subtitle_style: convertStylesToCSS(popupSlice.subtitle_style),
+      //   button_style: convertStylesToCSS(popupSlice.button_style),
+      //   image_style: convertStylesToCSS(popupSlice.image_style),
+      // };
+      // console.log(ready);
+
       toast({
         title: "Successfully saved to the cloud",
       });
@@ -77,6 +89,7 @@ const EditorHeader = () => {
           <Button
             onClick={() => {
               localStorage.setItem("popup_preview", JSON.stringify(popupSlice));
+              console.log(JSON.stringify(popupSlice));
             }}
             variant={"ghost"}
             className="rounded-full bg-foreground border border-secondary/5 w-[40px] h-[40px] p-0"

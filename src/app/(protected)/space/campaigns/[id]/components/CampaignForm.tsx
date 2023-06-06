@@ -24,6 +24,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { useToast } from "@/components/ui/use-toast";
+import { userId } from "@/lib/storage";
 
 interface CampaignFormProps {
   isCreating: boolean;
@@ -61,7 +62,10 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
     e.preventDefault();
     setLoading(true);
     try {
-      const newCampaign: any = await createCampaignDocument(data);
+      const newCampaign: any = await createCampaignDocument({
+        ...data,
+        user_id: userId(),
+      });
       setData({ name: "", description: "", is_recurring: false, popup_id: "" });
       toast({
         title: "Campaign Created",
