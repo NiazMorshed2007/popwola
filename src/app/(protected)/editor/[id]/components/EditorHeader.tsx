@@ -1,12 +1,54 @@
 import Logo from "@/components/Logo";
 import { convertStylesToCSS } from "@/components/editor/helpers/convertToCssString";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { usePopupSlice } from "@/hooks/popupSliceHook";
-import { Cloud, CornerUpLeft, Eye, Link2, Rocket } from "lucide-react";
+import { updatePopupDocument } from "@/lib/services/popup.service";
+import { PopupSliceInterface } from "@/redux/slices/popupSlice";
+import {
+  Cloud,
+  CornerUpLeft,
+  Eye,
+  Link2,
+  LoaderIcon,
+  Rocket,
+} from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 const EditorHeader = () => {
   const { popupSlice } = usePopupSlice();
+  const { toast } = useToast();
+  const [saving, setSaving] = useState<boolean>(false);
+
+  const updatePopup = async () => {
+    toast({
+      title: "Saving to the cloud.....",
+    });
+    try {
+      setSaving(true);
+      const { id, ...rest } = popupSlice as PopupSliceInterface;
+      const updatedPopup = await updatePopupDocument(popupSlice.id, {
+        ...rest,
+        bg: convertStylesToCSS(popupSlice.bg),
+        title_style: convertStylesToCSS(popupSlice.title_style),
+        subtitle_style: convertStylesToCSS(popupSlice.subtitle_style),
+        button_style: convertStylesToCSS(popupSlice.button_style),
+        image_style: convertStylesToCSS(popupSlice.image_style),
+      });
+      toast({
+        title: "Successfully saved to the cloud",
+      });
+      setSaving(false);
+    } catch (err: any) {
+      setSaving(false);
+      toast({
+        variant: "destructive",
+        title: "Can't update to the cloud",
+        description: err.message,
+      });
+    }
+  };
 
   return (
     <header className="bg-dark p-3 flex items-center justify-between">
@@ -24,16 +66,12 @@ const EditorHeader = () => {
       </div>
       <h2 className="text-sm flex items-center select-none gap-3">
         <Link2 size={15} className="rotate-45" />
-        Coupon Campaign
+        {popupSlice.name}
       </h2>
       <div className="actions flex items-center gap-5">
-        <Button
-          onClick={() => {
-            console.log(convertStylesToCSS(popupSlice.title_style));
-          }}
-        >
+        <Button disabled={saving} onClick={updatePopup}>
           <Cloud size={14} className="mr-3" />
-          Save
+          Save {saving && "...."}
         </Button>
         <Link href={"/preview_popup"} target="_blank">
           <Button

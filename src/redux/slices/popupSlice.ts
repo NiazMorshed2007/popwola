@@ -4,6 +4,8 @@ import { CSSProperties } from "react";
 import { extractTranslateValue } from "@/components/editor/helpers/extractTranslate";
 
 export interface PopupSliceInterface {
+  id: string;
+  campaign_id: string;
   name: string;
   bg: CSSProperties;
   title_value: string;
@@ -32,6 +34,8 @@ const transformStyleMap: {
 
 const initialPopupState: PopupSliceInterface = {
   name: "popup",
+  id: "1",
+  campaign_id: "",
   bg: {
     backgroundColor: "#ffffff",
     width: "700px",
@@ -40,55 +44,53 @@ const initialPopupState: PopupSliceInterface = {
     position: "relative",
     borderRadius: "10px",
   },
-  title_value: "Edit this Title",
+  title_value: "Don't miss this amazing opportuity",
   title_style: {
-    color: "#000000",
-    width: "300px",
-    height: "50px",
-    fontSize: "44px",
-    transform: "translate(10px, 10px)",
+    color: "#21a373",
+    fontSize: "35px",
     fontWeight: "600",
-    textAlign: "left",
-    position: "absolute",
+    height: "50px",
     letterSpacing: "0px",
+    position: "absolute",
+    textAlign: "left",
+    transform: "translate(57px, 31px)",
+    width: "602px",
   },
-  subtitle_value: "Edit this Subtitle",
+  subtitle_value: "Limited offer!! Claim your deal now!!",
   subtitle_style: {
-    color: "#000000",
-    width: "300px",
+    color: "#3d3d3d",
+    fontSize: "19px",
+    fontWeight: "400",
     height: "30px",
-    fontSize: "26px",
-    transform: "translate(10px, 80px)",
-    position: "absolute",
-    fontWeight: "300",
-    textAlign: "left",
     letterSpacing: "0px",
+    position: "absolute",
+    textAlign: "center",
+    transform: "translate(73px, 95px)",
+    width: "540px",
   },
   img_url:
     "https://cloud.appwrite.io/v1/storage/buckets/647d8d9393004459fd6d/files/647e11389c8d1b90f91c/view?project=6475ca5453bd7b131cd8&mode=admin",
   // "https://cloud.appwrite.io/v1/storage/buckets/647d8d9393004459fd6d/files/647dbb4eed24a753d3be/view?project=6475ca5453bd7b131cd8&mode=admin",
   image_style: {
-    width: "200px",
-    height: "200px",
-    transform: "translate(420px, 40px)",
+    height: "222px",
     position: "absolute",
-    // objectFit: "conta",
+    transform: "translate(191px, 209px)",
+    width: "286px",
   },
   button_value: "Click here",
   button_style: {
-    color: "#ffffff",
-    width: "100px",
-    backgroundColor: "#000000",
-    height: "50px",
-    fontSize: "16px",
-    transform: "translate(10px, 130px)",
-    fontWeight: "600",
-    // position: "absolute",
-    textAlign: "center",
-    letterSpacing: "0px",
     background: "#000000",
+    backgroundColor: "#f42841",
     borderRadius: "10px",
+    color: "#ffffff",
+    fontSize: "16px",
+    fontWeight: "400",
+    height: "39px",
+    letterSpacing: "0px",
     position: "absolute",
+    textAlign: "center",
+    transform: "translate(256px, 150px)",
+    width: "165px",
   },
 };
 

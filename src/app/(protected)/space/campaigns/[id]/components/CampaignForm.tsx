@@ -43,6 +43,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
           name: "",
           description: "",
           is_recurring: false,
+          popup_id: "",
         }
       : initialData!
   );
@@ -61,7 +62,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
     setLoading(true);
     try {
       const newCampaign: any = await createCampaignDocument(data);
-      setData({ name: "", description: "", is_recurring: false });
+      setData({ name: "", description: "", is_recurring: false, popup_id: "" });
       toast({
         title: "Campaign Created",
       });

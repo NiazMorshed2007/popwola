@@ -15,7 +15,7 @@ const SmallPreview: React.FC<Props> = ({ width, height }) => {
         ...popupSlice.bg,
         height: "100%",
         width: "100%",
-        scale: 0.9,
+        scale: 0.96,
         overflow: "auto",
       }}
     >

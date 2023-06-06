@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import EditorHeader from "./components/EditorHeader";
-import ElementsMap from "./components/ElementsMap";
-import PropertiesSidebar from "./components/propertiesSidebar/PropertiesSidebar";
+import EditorHeader from "./[id]/components/EditorHeader";
+import ElementsMap from "./[id]/components/ElementsMap";
+import PropertiesSidebar from "./[id]/components/propertiesSidebar/PropertiesSidebar";
 
 interface Props {
   children: React.ReactNode;

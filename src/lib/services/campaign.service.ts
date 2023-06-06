@@ -13,8 +13,6 @@ export const getAllCampaigns = async (): Promise<{
 export const createCampaignDocument = async (
   campaignData: CampaignInterface
 ): Promise<CampaignInterface> => {
-  console.log(campaignData);
-
   return await api.createDocument(
     process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID,
     campaignData,
@@ -32,5 +30,16 @@ export const getCampaignDocument = async (
   return api.getDocument(
     process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID,
     campaignId
+  );
+};
+
+export const updateCampaignDocument = async (
+  campaignId: string,
+  campaignData: Object
+): Promise<CampaignInterface> => {
+  return await api.updateDocument(
+    process.env.NEXT_PUBLIC_CAMPAIGN_COLLECTION_ID,
+    campaignId,
+    campaignData
   );
 };

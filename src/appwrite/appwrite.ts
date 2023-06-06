@@ -70,11 +70,11 @@ let api: any = {
       .database.getDocument(databaseId, collectionId, documentId);
   },
 
-  // updateDocument: (databaseId, collectionId, documentId, data) => {
-  //   return api
-  //     .provider()
-  //     .database.updateDocument(databaseId, collectionId, documentId, data);
-  // },
+  updateDocument: (collectionId: string, documentId: string, data: JSON) => {
+    return api
+      .provider()
+      .database.updateDocument(databaseId, collectionId, documentId, data);
+  },
 
   // deleteDocument: (databaseId, collectionId, documentId) => {
   //   return api

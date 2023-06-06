@@ -2,10 +2,10 @@ import React from "react";
 import { Layers, FileType, Image } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSelectedNode } from "@/hooks/selectedNodeHook";
-import ValueCell from "../../../../../components/editor/cells/value/ValueCell";
 import BasicCell from "@/components/editor/cells/basic/BasicCell";
 import TextCell from "@/components/editor/cells/textcell/TextCell";
 import ColoringCell from "@/components/editor/cells/coloring/ColoringCell";
+import ValueCell from "@/components/editor/cells/value/ValueCell";
 
 const PropertiesSidebar = () => {
   const selectedNode = useSelectedNode();
