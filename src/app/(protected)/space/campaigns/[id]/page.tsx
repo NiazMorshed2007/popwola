@@ -1,30 +1,23 @@
 "use client";
 
-import { convertStylesToCSS } from "@/components/editor/helpers/convertToCssString";
 import { convertCSSToStyles } from "@/components/editor/helpers/stringToCss";
 import SmallPreview from "@/components/editor/preview/SmallPreview";
+import LibraryModal from "@/components/modals/LibraryModal";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { usePopupSlice } from "@/hooks/popupSliceHook";
 import { CampaignInterface } from "@/interfaces/campaign.interface";
-import {
-  getCampaignDocument,
-  updateCampaignDocument,
-} from "@/lib/services/campaign.service";
-import { createPopup, getPopupDocuemnt } from "@/lib/services/popup.service";
+import { getCampaignDocument } from "@/lib/services/campaign.service";
+import { getPopupDocuemnt } from "@/lib/services/popup.service";
 import { Pencil } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import CampaignForm from "./components/CampaignForm";
 import CampaignLoadingSkeleton from "./components/CampaignLoadingSkeleton";
-import Preview from "@/components/editor/preview/Preview";
 
 const ManageCampaign = () => {
-  const { popupSlice } = usePopupSlice();
-  //
-
   const pathname: string = usePathname();
+  const query = useSearchParams();
   const isCreating = pathname === "/space/campaigns/create";
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +27,8 @@ const ManageCampaign = () => {
     is_recurring: false,
     popup_id: "",
   });
-  const [popup, setPopup] = useState<any>();
+  const [popup, setPopup] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const fetchCampaign = async () => {
     const campaignData = await getCampaignDocument(pathname.split("/")[3]);
@@ -42,6 +36,10 @@ const ManageCampaign = () => {
     setLoading(false);
     if (campaignData.popup_id) {
       fetchPopup(campaignData.popup_id!);
+    } else {
+      if (query.get("template") === "true") {
+        setModalOpen(true);
+      }
     }
   };
 
@@ -61,31 +59,11 @@ const ManageCampaign = () => {
     });
   };
 
-  const selectTemplateforCampaign = async () => {
-    if (popup) {
-      console.log("should update popup");
-    } else {
-      const { id, ...rest } = popupSlice;
-      const newPopup = await createPopup({
-        ...rest,
-        campaign_id: campaign.$id!,
-        name: campaign.name,
-        bg: convertStylesToCSS(popupSlice.bg),
-        title_style: convertStylesToCSS(popupSlice.title_style),
-        subtitle_style: convertStylesToCSS(popupSlice.subtitle_style),
-        image_style: convertStylesToCSS(popupSlice.image_style),
-        button_style: convertStylesToCSS(popupSlice.button_style),
-      });
-
-      const updatedCampaign = await updateCampaignDocument(campaign.$id!, {
-        popup_id: newPopup.$id!,
-      });
-    }
-  };
-
   useEffect(() => {
     if (!isCreating) {
       fetchCampaign();
+      if (popup) {
+      }
     } else {
       setLoading(false);
     }
@@ -117,8 +95,13 @@ const ManageCampaign = () => {
           </div>
           <div className="right h-full flex items-center flex-col justify-center">
             {/* <div> */}
-            <div className="w-[400px] flex items-center justify-center h-[200px] mb-5 bg-secondary/5 rounded-xl">
-              {popup.name} Popup
+            <div className="w-[400px] overflow-hidden flex items-center justify-center h-[200px] mb-5 bg-secondary/5 rounded-xl">
+              <div
+                style={{ scale: 0.4, marginRight: "140px" }}
+                className="w-full h-full"
+              >
+                <SmallPreview {...popup} />
+              </div>
             </div>
             {isCreating ? (
               <>
@@ -135,14 +118,17 @@ const ManageCampaign = () => {
                 )}
                 {/* <Link href={"/editor"}> */}
                 <div className="flex items-center gap-3">
-                  <Button
-                    onClick={() => {
-                      selectTemplateforCampaign();
-                    }}
-                    className="bg-secondary /10 hover:bg-secondary/5"
+                  <LibraryModal
+                    campaign_name={campaign.name}
+                    campaign_id={campaign?.$id!}
+                    should_update_popup={popup ? true : false}
+                    open={modalOpen}
+                    setOpen={setModalOpen}
                   >
-                    Select a template
-                  </Button>
+                    <Button className="bg-secondary /10 hover:bg-secondary/5">
+                      Select a template
+                    </Button>
+                  </LibraryModal>
                   {popup && (
                     <Link href={`/editor/${popup.$id}`}>
                       <Button>

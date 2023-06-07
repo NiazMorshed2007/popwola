@@ -9,7 +9,6 @@ export const register = async (registerBody: RegisterInterface) => {
         email: registerBody.email,
         password: registerBody.password,
       });
-      console.log(session);
       if (session) {
         const account = await api.getAccount();
         return account;

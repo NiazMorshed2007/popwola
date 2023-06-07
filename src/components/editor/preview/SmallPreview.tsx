@@ -27,18 +27,8 @@ const SmallPreview: React.FC<Props> = (props) => {
     button_value,
   } = props;
 
-  console.log(title_style);
-
   return (
-    <div
-      style={{
-        ...bg,
-        height: "100%",
-        width: "100%",
-        scale: 0.96,
-        overflow: "auto",
-      }}
-    >
+    <>
       <h1 style={title_style} id="title" className="element">
         {title_value}
       </h1>
@@ -53,7 +43,7 @@ const SmallPreview: React.FC<Props> = (props) => {
         alt=""
       />
       <button style={button_style}>{button_value}</button>
-    </div>
+    </>
   );
 };
 

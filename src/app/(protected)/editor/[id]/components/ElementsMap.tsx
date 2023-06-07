@@ -1,6 +1,6 @@
 "use client";
 
-import ElementItem from "@/components/modals/ElementItem";
+import ElementItem from "@/components/editor/ElementItem";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { useSelectedNode } from "@/hooks/selectedNodeHook";
 import { SupportedNodeTypes, setNode } from "@/redux/slices/nodeSlice";

@@ -1,6 +1,13 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -9,22 +16,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 import { CampaignInterface } from "@/interfaces/campaign.interface";
 import { createCampaignDocument } from "@/lib/services/campaign.service";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
-import { useToast } from "@/components/ui/use-toast";
 import { userId } from "@/lib/storage";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { FormEvent, useState } from "react";
 
 interface CampaignFormProps {
   isCreating: boolean;
@@ -71,7 +71,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
         title: "Campaign Created",
       });
       setLoading(false);
-      router.push(`/space/campaigns/${newCampaign.$id}`);
+      router.push(`/space/campaigns/${newCampaign.$id}?template=true`);
     } catch (err: any) {
       console.log(err);
       toast({
