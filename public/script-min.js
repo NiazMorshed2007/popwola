@@ -100,6 +100,7 @@ var Popwola = (function () {
               {
                 method: "GET",
                 headers: { "X-Appwrite-Project": "6475ca5453bd7b131cd8" },
+                mode: "no-cors",
               }
             );
             return t.json();
