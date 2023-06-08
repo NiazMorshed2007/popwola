@@ -78,7 +78,11 @@ var Popwola = (function () {
         `https://cloud.appwrite.io/v1/databases/6477edd01cdd300e0b80/collections/647ab9ff72389c6feeb1/documents?queries[0]=equal("user_id", ["${this.userCode}"])&queries[1]=equal("is_active", [true])`,
         {
           method: "GET",
-          headers: { "X-Appwrite-Project": "6475ca5453bd7b131cd8" },
+          headers: {
+            "X-Appwrite-Project": "6475ca5453bd7b131cd8",
+            "Content-Type": "application/json",
+          },
+          mode: "no-cors",
         }
       );
       const n = await t.json(),
