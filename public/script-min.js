@@ -82,7 +82,6 @@ var Popwola = (function () {
             "X-Appwrite-Project": "6475ca5453bd7b131cd8",
             "Content-Type": "application/json",
           },
-          mode: "no-cors",
         }
       );
       const n = await t.json(),
@@ -99,8 +98,9 @@ var Popwola = (function () {
                 e.popup_id,
               {
                 method: "GET",
-                headers: { "X-Appwrite-Project": "6475ca5453bd7b131cd8" },
-                mode: "no-cors",
+                headers: {
+                  "X-Appwrite-Project": "6475ca5453bd7b131cd8",
+                },
               }
             );
             return t.json();
