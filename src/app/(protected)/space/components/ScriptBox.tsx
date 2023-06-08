@@ -6,7 +6,7 @@ import { userId } from "@/lib/storage";
 
 const ScriptBox = () => {
   const scriptString = `
-  <script src="./script-min.js"></script>
+  <script src="https://popwola.vercel.app/script-min.js"></script>
 <script>
    Popwola.init("${userId()}");
 </script>`;
@@ -22,7 +22,10 @@ const ScriptBox = () => {
     <span>
       <span className="text-secondary">{"<srcipt "}</span>
       <span className="text-secondary/70">src</span>=&apos;
-      <span className="text-orange-400">./script-min.js</span>&apos;
+      <span className="text-orange-400">
+        https://popwola.vercel.app/script-min.js
+      </span>
+      &apos;
       <span className="text-secondary">{"></script>"}</span>
     </span>
   );

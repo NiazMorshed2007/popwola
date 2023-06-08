@@ -26,6 +26,7 @@ import { userId } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon, Loader } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -269,7 +270,11 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
         </Select>
       </div>
       <div className="buttons-wrapper flex items-center justify-end gap-3">
-        <Button variant={"destructive"}>Cancel</Button>
+        {isCreating && (
+          <Link href={"/space/campaigns"}>
+            <Button variant={"destructive"}>Cancel</Button>
+          </Link>
+        )}
         <Button disabled={loading}>
           {loading && <Loader size={13} className="animate-spin mr-2" />}{" "}
           {isCreating ? "Create" : "Update"}
