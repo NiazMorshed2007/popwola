@@ -21,8 +21,8 @@ const ScriptBox = () => {
   const firstScript = (
     <span>
       <span className="text-secondary">{"<srcipt "}</span>
-      <span className="text-secondary/70">src</span>="
-      <span className="text-orange-400">./script-min.js</span>"
+      <span className="text-secondary/70">src</span>=&apos;
+      <span className="text-orange-400">./script-min.js</span>&apos;
       <span className="text-secondary">{"></script>"}</span>
     </span>
   );
@@ -32,8 +32,9 @@ const ScriptBox = () => {
       <span className="text-secondary">{"<srcipt>"}</span>
       <span className="text-brand">
         {" "}
-        Popwola.init("<span className="text-green-500 text-sm">{userId()}</span>
-        "){" "}
+        Popwola.init(&apos;
+        <span className="text-green-500 text-sm">{userId()}</span>
+        &apos;){" "}
       </span>
       <span className="text-secondary">{"</script>"}</span>
     </span>

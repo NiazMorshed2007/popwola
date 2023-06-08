@@ -30,7 +30,7 @@ const Dashboard = () => {
                   </div>
                   <p className="mb-3 text-sm text-slate-11 font-normal text-secondary/60">
                     Add the following script the {"<"}head{">"} tag in your
-                    website & we'll handle the rest!
+                    website & we&apos;ll handle the rest!
                   </p>
 
                   <ScriptBox />
