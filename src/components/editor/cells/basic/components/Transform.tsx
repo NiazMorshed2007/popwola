@@ -1,10 +1,10 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import CellInput from "../../common/CellInput";
 import { setXAxis, setYAxis } from "@/redux/slices/popupSlice";
 import { extractTranslateValue } from "@/components/editor/helpers/extractTranslate";
-import { useSelectedNode } from "@/hooks/selectedNodeHook";
-import { useAppDispatch } from "@/hooks/reduxHooks";
 import { usePopupSlice } from "@/hooks/popupSliceHook";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { useSelectedNode } from "@/hooks/selectedNodeHook";
 
 const Transform = () => {
   const { targetedNodeStyle } = usePopupSlice();
@@ -13,23 +13,19 @@ const Transform = () => {
   const xVal = extractTranslateValue(targetedNodeStyle()?.transform!, "x");
   const yVal = extractTranslateValue(targetedNodeStyle()?.transform!, "y");
 
+  const handleChangeX = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setXAxis({ node: selectedNode, x: e.target.value }));
+  };
+
+  const handleChangeY = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setYAxis({ node: selectedNode, y: e.target.value }));
+  };
+
   return (
-    <>
-      <CellInput
-        value={xVal!}
-        onChangeFn={(e) => {
-          dispatch(setXAxis({ node: selectedNode, x: e.target.value }));
-        }}
-        label="X"
-      />
-      <CellInput
-        value={yVal!}
-        label="Y"
-        onChangeFn={(e) => {
-          dispatch(setYAxis({ node: selectedNode, y: e.target.value }));
-        }}
-      />
-    </>
+    <div className="flex items-center gap-7 justify-between">
+      <CellInput value={xVal!} onChangeFn={handleChangeX} label="X" />
+      <CellInput value={yVal!} onChangeFn={handleChangeY} label="Y" />
+    </div>
   );
 };
 

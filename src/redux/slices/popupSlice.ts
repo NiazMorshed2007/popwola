@@ -2,6 +2,7 @@ import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { SupportedNodeTypes } from "./nodeSlice";
 import { CSSProperties } from "react";
 import { extractTranslateValue } from "@/components/editor/helpers/extractTranslate";
+import { URL } from "url";
 
 export interface PopupSliceInterface {
   id: string;
@@ -15,6 +16,7 @@ export interface PopupSliceInterface {
   img_url: string;
   image_style: CSSProperties;
   button_value: string;
+  button_url: string;
   button_style: CSSProperties;
 }
 
@@ -78,6 +80,7 @@ const initialPopupState: PopupSliceInterface = {
     width: "286px",
   },
   button_value: "Click here",
+  button_url: "https://www.google.com",
   button_style: {
     background: "#000000",
     backgroundColor: "#f42841",
@@ -117,6 +120,19 @@ export const popupSlice = createSlice({
         state.img_url = value;
       } else if (node === "button") {
         state.button_value = value;
+      }
+    },
+
+    setUrl: (
+      state,
+      action: PayloadAction<{
+        node: SupportedNodeTypes;
+        url: string;
+      }>
+    ) => {
+      const { node, url } = action.payload;
+      if (node === "button") {
+        state.button_url = url;
       }
     },
 
@@ -165,7 +181,7 @@ export const popupSlice = createSlice({
   },
 });
 
-export const { setPopup, setValue, setYAxis, setXAxis, setStyle } =
+export const { setPopup, setValue, setYAxis, setXAxis, setStyle, setUrl } =
   popupSlice.actions;
 
 // selectors

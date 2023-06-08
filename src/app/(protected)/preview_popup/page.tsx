@@ -42,7 +42,9 @@ const PreviewPage = () => {
             className="element"
             style={popupPreviewState?.button_style}
           >
-            {popupPreviewState?.button_value}
+            <a href={popupPreviewState?.button_url} target="_blank">
+              {popupPreviewState?.button_value}
+            </a>
           </button>
         </div>
       </div>

@@ -6,4 +6,5 @@ export interface CampaignInterface {
   end_date?: Date;
   popup_id: string;
   is_recurring: boolean;
+  is_active: boolean;
 }

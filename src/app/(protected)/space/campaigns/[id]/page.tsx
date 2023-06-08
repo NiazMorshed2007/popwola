@@ -1,10 +1,10 @@
 "use client";
 
 import { convertCSSToStyles } from "@/components/editor/helpers/stringToCss";
-import SmallPreview from "@/components/editor/preview/SmallPreview";
 import LibraryModal from "@/components/modals/LibraryModal";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "@/components/ui/use-toast";
 import { CampaignInterface } from "@/interfaces/campaign.interface";
 import { getCampaignDocument } from "@/lib/services/campaign.service";
 import { getPopupDocuemnt } from "@/lib/services/popup.service";
@@ -14,6 +14,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import CampaignForm from "./components/CampaignForm";
 import CampaignLoadingSkeleton from "./components/CampaignLoadingSkeleton";
+import Image from "next/image";
 
 const ManageCampaign = () => {
   const pathname: string = usePathname();
@@ -26,20 +27,30 @@ const ManageCampaign = () => {
     description: "",
     is_recurring: false,
     popup_id: "",
+    is_active: false,
   });
   const [popup, setPopup] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const fetchCampaign = async () => {
-    const campaignData = await getCampaignDocument(pathname.split("/")[3]);
-    setCampaign(campaignData);
-    setLoading(false);
-    if (campaignData.popup_id) {
-      fetchPopup(campaignData.popup_id!);
-    } else {
-      if (query.get("template") === "true") {
-        setModalOpen(true);
+    try {
+      const campaignData = await getCampaignDocument(pathname.split("/")[3]);
+      setCampaign(campaignData);
+      setLoading(false);
+      if (campaignData.popup_id) {
+        fetchPopup(campaignData.popup_id!);
+      } else {
+        if (query.get("template") === "true") {
+          setModalOpen(true);
+        }
       }
+    } catch (err: any) {
+      console.log(err);
+      toast({
+        variant: "destructive",
+        title: "Cannot fetch campaign",
+        description: err.message,
+      });
     }
   };
 
@@ -67,7 +78,7 @@ const ManageCampaign = () => {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [open]);
 
   return (
     <>
@@ -89,19 +100,19 @@ const ManageCampaign = () => {
               <h1 className="text-2xl mt-7 font-semibold text-primary/80">
                 {isCreating && "Create"} Campaign {!isCreating && "Details"}
               </h1>
-              {/* {popup && <>{popup[0].name}</>} */}
               <CampaignForm initialData={campaign} isCreating={isCreating} />
             </ScrollArea>
           </div>
           <div className="right h-full flex items-center flex-col justify-center">
-            {/* <div> */}
-            <div className="w-[400px] overflow-hidden flex items-center justify-center h-[200px] mb-5 bg-secondary/5 rounded-xl">
-              <div
-                style={{ scale: 0.4, marginRight: "140px" }}
-                className="w-full h-full"
-              >
-                <SmallPreview {...popup} />
-              </div>
+            <div className="w-[400px] relative overflow-hidden flex items-center justify-center h-[200px] mb-5 bg-secondary/5 rounded-xl text-xl text-brand font-semibold">
+              <Image
+                src={"/popup-placeholder.png"}
+                width={400}
+                className="absolute top-0 rounded-lg left-0 -z-10 opacity-10"
+                height={200}
+                alt="popup-placeholder"
+              />
+              {!isCreating && popup && <>{popup.name} Popup</>}
             </div>
             {isCreating ? (
               <>
@@ -113,21 +124,25 @@ const ManageCampaign = () => {
               <>
                 {!popup && !isCreating && (
                   <h2 className="text-sm mb-4 text-secondary/70">
-                    You haven&apos;t created any template yet
+                    You haven&apos;t selected any template yet
                   </h2>
                 )}
-                {/* <Link href={"/editor"}> */}
                 <div className="flex items-center gap-3">
                   <LibraryModal
                     campaign_name={campaign.name}
                     campaign_id={campaign?.$id!}
                     should_update_popup={popup ? true : false}
                     open={modalOpen}
+                    popup_id={popup?.$id!}
                     setOpen={setModalOpen}
                   >
-                    <Button className="bg-secondary /10 hover:bg-secondary/5">
+                    <div
+                      className={buttonVariants({
+                        className: "bg-secondary /10 hover:bg-secondary/5",
+                      })}
+                    >
                       Select a template
-                    </Button>
+                    </div>
                   </LibraryModal>
                   {popup && (
                     <Link href={`/editor/${popup.$id}`}>
@@ -137,10 +152,8 @@ const ManageCampaign = () => {
                     </Link>
                   )}
                 </div>
-                {/* </Link> */}
               </>
             )}
-            {/* </div> */}
           </div>
         </div>
       )}

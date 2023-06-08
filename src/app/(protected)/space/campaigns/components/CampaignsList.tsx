@@ -22,7 +22,7 @@ const CampaignsList = () => {
     fetchCampaigns();
   }, []);
   return (
-    <div className="campaigns-list flex-wrap py-8 flex items-center justify-start gap-3">
+    <div className="campaigns-list flex-wrap py-8 flex justify-start gap-3">
       {loading && (
         <>
           <CampaignCardSkeleton />

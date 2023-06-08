@@ -11,4 +11,5 @@ export interface PopupInterface {
   image_style: string;
   button_value: string;
   button_style: string;
+  button_url: string;
 }

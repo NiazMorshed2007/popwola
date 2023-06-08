@@ -15,10 +15,7 @@ export const getPopupDocuemnt = async (popupId: string) => {
   );
 };
 
-export const updatePopupDocument = async (
-  popupId: string,
-  popup: PopupInterface
-) => {
+export const updatePopupDocument = async (popupId: string, popup: Object) => {
   return await api.updateDocument(
     process.env.NEXT_PUBLIC_POPUP_COLLECTION_ID,
     popupId,

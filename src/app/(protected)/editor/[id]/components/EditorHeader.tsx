@@ -3,6 +3,7 @@ import { convertStylesToCSS } from "@/components/editor/helpers/convertToCssStri
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { usePopupSlice } from "@/hooks/popupSliceHook";
+import { updateCampaignDocument } from "@/lib/services/campaign.service";
 import { updatePopupDocument } from "@/lib/services/popup.service";
 import { PopupSliceInterface } from "@/redux/slices/popupSlice";
 import {
@@ -21,6 +22,28 @@ const EditorHeader = () => {
   const { toast } = useToast();
   const [saving, setSaving] = useState<boolean>(false);
 
+  const setCampaignActive = async () => {
+    try {
+      console.log(popupSlice.campaign_id);
+
+      const updatedCampaign = await updateCampaignDocument(
+        popupSlice.campaign_id,
+        {
+          is_active: true,
+        }
+      );
+      toast({
+        title: "Campaign is now live!",
+      });
+    } catch (err: any) {
+      toast({
+        variant: "destructive",
+        title: "Failed to publish campaign",
+        description: err?.message,
+      });
+    }
+  };
+
   const updatePopup = async () => {
     toast({
       title: "Saving to the cloud.....",
@@ -37,16 +60,6 @@ const EditorHeader = () => {
         button_style: convertStylesToCSS(popupSlice.button_style),
         image_style: convertStylesToCSS(popupSlice.image_style),
       });
-
-      // const ready = {
-      //   ...rest,
-      //   bg: convertStylesToCSS(popupSlice.bg),
-      //   title_style: convertStylesToCSS(popupSlice.title_style),
-      //   subtitle_style: convertStylesToCSS(popupSlice.subtitle_style),
-      //   button_style: convertStylesToCSS(popupSlice.button_style),
-      //   image_style: convertStylesToCSS(popupSlice.image_style),
-      // };
-      // console.log(ready);
 
       toast({
         title: "Successfully saved to the cloud",
@@ -97,7 +110,10 @@ const EditorHeader = () => {
             <Eye size={16} className="" />
           </Button>
         </Link>
-        <Button className="bg-orange-500 hover:bg-orange-500/70">
+        <Button
+          onClick={setCampaignActive}
+          className="bg-orange-500 hover:bg-orange-500/70"
+        >
           <Rocket size={14} className="mr-3" /> Publish
         </Button>
       </div>

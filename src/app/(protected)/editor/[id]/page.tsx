@@ -70,6 +70,7 @@ const Editor = () => {
             image_style: convertCSSToStyles(popupData.image_style),
             button_value: popupData.button_value,
             button_style: convertCSSToStyles(popupData.button_style),
+            button_url: popupData.button_url,
           })
         );
 

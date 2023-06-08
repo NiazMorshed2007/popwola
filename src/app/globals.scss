@@ -8,6 +8,7 @@
   box-sizing: border-box;
 }
 
+
 body {
   @apply bg-dark text-primary;
   overflow: hidden;
@@ -21,4 +22,28 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .steps-gradient {
   background: linear-gradient(180deg, transparent, #23252c 10%, #23252c 90%, transparent);
+}
+
+
+.shape1 {
+  position: absolute;
+  width: 731.5px;
+  height: 401.5px;
+  left: -230px;
+  top: 234.5px;
+
+  background: linear-gradient(180deg, #181F50 5.98%, rgba(110, 93, 248, 0) 100%);
+  filter: blur(213.5px);
+}
+
+.shape2 {
+  position: absolute;
+  width: 899px;
+  height: 525px;
+  left: 1300px;
+  top: 145px;
+
+  background: linear-gradient(180deg, #51507E 4.67%, #020312 78.12%);
+  filter: blur(173px);
+  transform: matrix(-1, 0, 0, 1, 0, 0);
 }

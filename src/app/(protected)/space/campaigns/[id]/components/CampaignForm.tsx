@@ -18,13 +18,16 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { CampaignInterface } from "@/interfaces/campaign.interface";
-import { createCampaignDocument } from "@/lib/services/campaign.service";
+import {
+  createCampaignDocument,
+  updateCampaignDocument,
+} from "@/lib/services/campaign.service";
 import { userId } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 
 interface CampaignFormProps {
   isCreating: boolean;
@@ -45,12 +48,17 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
           description: "",
           is_recurring: false,
           popup_id: "",
+          is_active: false,
         }
       : initialData!
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const [startDate, setStartDate] = useState<Date>();
-  const [endDate, setEndDate] = useState<Date>();
+  const [startDate, setStartDate] = useState<any>(
+    isCreating ? undefined : new Date(initialData?.start_date!)
+  );
+  const [endDate, setEndDate] = useState<any>(
+    isCreating ? undefined : new Date(initialData?.end_date!)
+  );
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -58,15 +66,53 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleCreateCampaign = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleUpdateCampaign = async () => {
+    setLoading(true);
+    console.log(data);
+
+    try {
+      const updatedCampaign = await updateCampaignDocument(data.$id!, {
+        name: data.name,
+        description: data.description,
+        is_recurring: data.is_recurring,
+        popup_id: data.popup_id,
+        is_active: data.is_active,
+        start_date: startDate,
+        end_date: endDate,
+      });
+
+      setLoading(false);
+      toast({
+        title: "Campaign updated",
+      });
+    } catch (err: any) {
+      console.log(err);
+      setLoading(false);
+      toast({
+        variant: "destructive",
+        title: "Cannot update campaign",
+        description: err.message,
+      });
+    }
+  };
+
+  const handleCreateCampaign = async () => {
     setLoading(true);
     try {
       const newCampaign: any = await createCampaignDocument({
         ...data,
+        is_active: false,
         user_id: userId(),
+        start_date: new Date(startDate),
+        end_date: new Date(endDate),
       });
-      setData({ name: "", description: "", is_recurring: false, popup_id: "" });
+      setData({
+        name: "",
+        description: "",
+        is_recurring: false,
+        popup_id: "",
+        is_active: false,
+      });
       toast({
         title: "Campaign Created",
       });
@@ -83,8 +129,30 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
     }
   };
 
+  const handleDateSelect = (
+    date: Date,
+    setFunction: React.Dispatch<React.SetStateAction<any>>
+  ) => {
+    const currentDate = new Date(date);
+
+    currentDate.setHours(new Date().getHours());
+    currentDate.setMinutes(new Date().getMinutes());
+    currentDate.setSeconds(new Date().getSeconds());
+    setFunction(currentDate);
+  };
+
   return (
-    <form onSubmit={handleCreateCampaign} className="mt-7 w-9/12">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (isCreating) {
+          handleCreateCampaign();
+        } else {
+          handleUpdateCampaign();
+        }
+      }}
+      className="mt-7 w-9/12"
+    >
       <div className="mb-4">
         <label className="block mb-2 text-xs text-secondary font-medium">
           Campaign Name <span className="text-red-500">*</span>
@@ -137,7 +205,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
               required
               mode="single"
               selected={startDate}
-              onSelect={setStartDate}
+              onSelect={(date) => handleDateSelect(date!, setStartDate)}
               initialFocus
             />
           </PopoverContent>
@@ -170,7 +238,7 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
               required
               mode="single"
               selected={endDate}
-              onSelect={setEndDate}
+              onSelect={(date) => handleDateSelect(date!, setEndDate)}
               initialFocus
             />
           </PopoverContent>
@@ -179,13 +247,14 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
 
       <div className="mb-4">
         <label className="block mb-2 text-xs text-secondary font-medium">
-          Is recurring? <span className="text-red-500">*</span>
+          Is active? <span className="text-red-500">*</span>
         </label>
         <Select
-          defaultValue={!data.is_recurring ? "no" : "yes"}
+          disabled={isCreating && !data.is_active}
+          defaultValue={!data.is_active ? "no" : "yes"}
           required
           onValueChange={(e: string) => {
-            setData((prev) => ({ ...prev, is_recurring: e === "yes" }));
+            setData((prev) => ({ ...prev, is_active: e === "yes" }));
           }}
         >
           <SelectTrigger className="w-full">
@@ -201,11 +270,10 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
       </div>
       <div className="buttons-wrapper flex items-center justify-end gap-3">
         <Button variant={"destructive"}>Cancel</Button>
-        {isCreating ? (
-          <Button disabled={loading}>Create</Button>
-        ) : (
-          <Button>Update</Button>
-        )}
+        <Button disabled={loading}>
+          {loading && <Loader size={13} className="animate-spin mr-2" />}{" "}
+          {isCreating ? "Create" : "Update"}
+        </Button>
       </div>
     </form>
   );

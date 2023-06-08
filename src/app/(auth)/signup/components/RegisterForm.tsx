@@ -40,7 +40,7 @@ const RegisterForm = () => {
     try {
       setLoading(true);
       const user = await register(data);
-      localStorage.setItem("user", user);
+      localStorage.setItem("user", JSON.stringify(user));
       toast({
         title: "Registration Successful!",
       });

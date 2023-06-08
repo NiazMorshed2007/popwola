@@ -1,11 +1,9 @@
 import { Input } from "@/components/ui/input";
-import React from "react";
+import React, { ChangeEvent } from "react";
 
 interface CellInputInterface {
   value: string;
-  onChangeFn: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  onChangeFn: (e: ChangeEvent<HTMLInputElement>) => void;
   label: string | React.ReactNode;
 }
 
@@ -19,7 +17,7 @@ const CellInput: React.FC<CellInputInterface> = (props) => {
       </p>
       <Input
         value={value}
-        onChange={(e) => onChangeFn(e)}
+        onChange={onChangeFn}
         className="w-[70px] rounded-none bg-dark border-none h-[35px] text-xs"
         type="number"
       />
