@@ -5,7 +5,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Popwola",
-  description: "Your only lead gen app for your business",
+  description: "Your no-code popup builder!",
 };
 
 export default function RootLayout({
