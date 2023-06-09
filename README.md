@@ -1,10 +1,10 @@
 <p align="center">
-  <a href="https://popwola.vercel.app/" target="blank"><img src="https://github.com/NiazMorshed2007/popwola/assets/77217706/99c8b256-48fb-4dfb-926c-c69c8028776b" width="120" alt="popwola" /></a>
+  <a href="https://popwola.vercel.app/" target="blank"><img src="https://github.com/NiazMorshed2007/popwola/assets/77217706/d28397ab-076e-4948-9ca0-a7035f3f750e" width="120" alt="popwola" /></a>
 </p>
 
 # Popwola - Your No-Code Popup Builder ⚒️
 
-![product-preview](https://github.com/NiazMorshed2007/popwola/assets/77217706/9fede4ce-bfe7-4311-9610-83934ec5635f)
+![product-preview](https://github.com/NiazMorshed2007/popwola/assets/77217706/50e87a2f-b418-4f07-9991-32e756d71ff3)
 
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/your-username/popwola/blob/main/LICENSE)
