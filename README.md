@@ -11,6 +11,11 @@
 
 Welcome to Popwola, the ultimate no-code popup builder that enables you to effortlessly create captivating and engaging popups to boost user engagement and drive conversions. With Popwola, you can say goodbye to overwork and coding complexities, and say hello to powerful, customizable popups that are easy to create and optimize.
 
+
+## Read the blog on Hashnode to know more
+https://niazmorshed.hashnode.dev/introducing-popwola-your-no-code-popup-builder-appwrite-x-hashnode-hackathon#heading-team-members
+
+
 ## Features 🪄
 
 ### Manage Popups with One Script 📜
