@@ -62,7 +62,7 @@ To get started with Popwola, follow these simple steps:
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/your-username/popwola.git
+   git clone https://github.com/NiazMorshed2007/popwola.git
    cd popwola
    ```
 
