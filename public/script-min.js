@@ -49,8 +49,10 @@ var Popwola = (function () {
           "#popwola{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:9999;display:flex;justify-content:center;align-items:center;opacity:0;visibility:hidden;transition:all 0.5s ease;}#popwola.popwola-active{opacity:1;visibility:visible;}.popwola-popup__close{width:24px;height:24px;position:absolute;top:18px;right:18px;cursor:pointer;}.popwola-popup__close-line{width:100%;height:2px;background-color:black;position:absolute;top:50%;left:0;transform-origin:center;}.popwola-popup__close-line:nth-child(1){transform:translateY(-50%) rotate(45deg);}.popwola-popup__close-line:nth-child(2){transform:translateY(-50%) rotate(-45deg);}#popwola-popup{" +
           bgStyles +
           ",animation:fadeIn 2s ease;}#popwola-popup-title{" +
+          "margin:0;" +
           titleStyles +
           ";}#popwola-popup-subtitle{" +
+          "margin:0;" +
           subtitleStyles +
           ";}#popwola-popup-button{border:none;cursor:pointer;" +
           buttonStyles +
