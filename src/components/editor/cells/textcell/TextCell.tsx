@@ -9,6 +9,7 @@ import WeightNSize from "./components/WeightNSize";
 const TextCell = () => {
   return (
     <>
+      {/* add collapsible option if too many properties */}
       <Collapsible open className="border-b border-secondary/10">
         <CollapsibleTrigger className="text-xs px-4 pb-2 text-secondary/70">
           Text Styles

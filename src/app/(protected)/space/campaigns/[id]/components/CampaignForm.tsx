@@ -1,6 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import DeleteCampaignModal from "@/components/modals/DeleteCampaignModal";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import {
@@ -25,7 +26,7 @@ import {
 import { userId } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon, Loader } from "lucide-react";
+import { CalendarIcon, Loader, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -53,6 +54,8 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
         }
       : initialData!
   );
+
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<any>(
     isCreating ? undefined : new Date(initialData?.start_date!)
@@ -69,7 +72,6 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
 
   const handleUpdateCampaign = async () => {
     setLoading(true);
-    console.log(data);
 
     try {
       const updatedCampaign = await updateCampaignDocument(data.$id!, {
@@ -274,6 +276,18 @@ const CampaignForm: React.FC<CampaignFormProps> = ({
           <Link href={"/space/campaigns"}>
             <Button variant={"destructive"}>Cancel</Button>
           </Link>
+        )}
+        {data && !isCreating && (
+          <DeleteCampaignModal
+            open={openDeleteModal}
+            setOpen={setOpenDeleteModal}
+            campaign_id={data.$id!}
+            popup_id={data?.popup_id}
+          >
+            <div className={buttonVariants({ variant: "destructive" })}>
+              <TrashIcon size={14} className="mr-2" /> Delete Campaign
+            </div>
+          </DeleteCampaignModal>
         )}
         <Button disabled={loading}>
           {loading && <Loader size={13} className="animate-spin mr-2" />}{" "}

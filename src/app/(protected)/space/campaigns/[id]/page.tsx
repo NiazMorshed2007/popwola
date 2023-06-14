@@ -1,20 +1,18 @@
 "use client";
 
-import { convertCSSToStyles } from "@/components/editor/helpers/stringToCss";
 import LibraryModal from "@/components/modals/LibraryModal";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { CampaignInterface } from "@/interfaces/campaign.interface";
 import { getCampaignDocument } from "@/lib/services/campaign.service";
-import { getPopupDocuemnt } from "@/lib/services/popup.service";
 import { Pencil } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import CampaignForm from "./components/CampaignForm";
 import CampaignLoadingSkeleton from "./components/CampaignLoadingSkeleton";
-import Image from "next/image";
 
 const ManageCampaign = () => {
   const pathname: string = usePathname();
@@ -29,7 +27,6 @@ const ManageCampaign = () => {
     popup_id: "",
     is_active: false,
   });
-  const [popup, setPopup] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const fetchCampaign = async () => {
@@ -37,44 +34,17 @@ const ManageCampaign = () => {
       const campaignData = await getCampaignDocument(pathname.split("/")[3]);
       setCampaign(campaignData);
       setLoading(false);
-      if (campaignData.popup_id) {
-        fetchPopup(campaignData.popup_id!);
-      } else {
-        if (query.get("template") === "true") {
-          setModalOpen(true);
-        }
+      if (query.get("template") === "true" && !campaignData.popup_id) {
+        setModalOpen(true);
       }
     } catch (err: any) {
       console.log(err);
-      toast({
-        variant: "destructive",
-        title: "Cannot fetch campaign",
-        description: err.message,
-      });
     }
-  };
-
-  const fetchPopup = async (id: string) => {
-    const popupData = await getPopupDocuemnt(id);
-    setPopup({
-      ...popupData,
-      bg: convertCSSToStyles(popupData.bg),
-      title_value: popupData.title_value,
-      title_style: convertCSSToStyles(popupData.title_style),
-      subtitle_value: popupData.subtitle_value,
-      subtitle_style: convertCSSToStyles(popupData.subtitle_style),
-      img_url: popupData.img_url,
-      image_style: convertCSSToStyles(popupData.image_style),
-      button_value: popupData.button_value,
-      button_style: convertCSSToStyles(popupData.button_style),
-    });
   };
 
   useEffect(() => {
     if (!isCreating) {
       fetchCampaign();
-      if (popup) {
-      }
     } else {
       setLoading(false);
     }
@@ -112,7 +82,7 @@ const ManageCampaign = () => {
                 height={200}
                 alt="popup-placeholder"
               />
-              {!isCreating && popup && <>{popup.name} Popup</>}
+              {!isCreating && campaign && <>{campaign.name} (Popup)</>}
             </div>
             {isCreating ? (
               <>
@@ -122,7 +92,7 @@ const ManageCampaign = () => {
               </>
             ) : (
               <>
-                {!popup && !isCreating && (
+                {!campaign.popup_id && !isCreating && (
                   <h2 className="text-sm mb-4 text-secondary/70">
                     You haven&apos;t selected any template yet
                   </h2>
@@ -131,9 +101,9 @@ const ManageCampaign = () => {
                   <LibraryModal
                     campaign_name={campaign.name}
                     campaign_id={campaign?.$id!}
-                    should_update_popup={popup ? true : false}
+                    should_update_popup={campaign.popup_id ? true : false}
                     open={modalOpen}
-                    popup_id={popup?.$id!}
+                    popup_id={campaign.popup_id}
                     setOpen={setModalOpen}
                   >
                     <div
@@ -144,8 +114,8 @@ const ManageCampaign = () => {
                       Select a template
                     </div>
                   </LibraryModal>
-                  {popup && (
-                    <Link href={`/editor/${popup.$id}`}>
+                  {campaign.popup_id && (
+                    <Link href={`/editor/${campaign.popup_id}`}>
                       <Button>
                         <Pencil size={13} className="mr-2" /> Edit in Editor
                       </Button>

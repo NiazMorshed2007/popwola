@@ -1,17 +1,17 @@
 "use client";
 
+import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { RegisterInterface } from "@/interfaces/auth.interface";
 import { register } from "@/lib/services/auth.service";
 import { createUserDocument } from "@/lib/services/user.service";
-import { FileWarning, LoaderIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 
-const RegisterForm = () => {
+const RegisterForm = (): JSX.Element => {
   const [data, setData] = useState<RegisterInterface>({
     fullName: "",
     email: "",
@@ -25,17 +25,20 @@ const RegisterForm = () => {
 
   const { toast } = useToast();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (data.password !== confirmedPassword)
-      return toast({
+    if (data.password !== confirmedPassword) {
+      toast({
         variant: "destructive",
         title: "Passwords do not match!",
       });
+      return;
+    }
 
     try {
       setLoading(true);
@@ -56,7 +59,6 @@ const RegisterForm = () => {
         const { password, ...rest } = data;
         router.push("/space");
         await createUserDocument(rest, user.$id);
-        setLoading(false);
       }
     } catch (err: any) {
       toast({
@@ -64,6 +66,7 @@ const RegisterForm = () => {
         title: "Uh oh! Can't Register :(",
         description: err.message,
       });
+    } finally {
       setLoading(false);
     }
   };
@@ -156,8 +159,7 @@ const RegisterForm = () => {
       </div>
       <Button disabled={loading} className="w-full text-sm">
         {" "}
-        {loading && <LoaderIcon className="animate-spin mr-3" size={20} />}{" "}
-        SignUp
+        {loading && <Loader />} SignUp
       </Button>
       <p className="text-sm mt-3">
         Alread have an account?{" "}

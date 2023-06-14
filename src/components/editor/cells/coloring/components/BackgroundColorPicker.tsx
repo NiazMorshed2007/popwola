@@ -2,31 +2,36 @@ import { Input } from "@/components/ui/input";
 import { usePopupSlice } from "@/hooks/popupSliceHook";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { useSelectedNode } from "@/hooks/selectedNodeHook";
+import { useSelectedView } from "@/hooks/selectedViewHook";
 import { setStyle } from "@/redux/slices/popupSlice";
-import React, { useRef } from "react";
+import React, { ChangeEvent, useRef } from "react";
 
 const BackgroundColorPicker = () => {
-  const backgroundColorInputRef = useRef<any>();
+  const backgroundColorInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const selectedNode = useSelectedNode();
+  const selectedView = useSelectedView();
   const { targetedNodeStyle } = usePopupSlice();
 
-  const getBackgroundColorByNode = () => {
+  const getBackgroundColorByNode = (): string | undefined => {
     return targetedNodeStyle()?.backgroundColor;
   };
 
-  const handleBackgroundColorChange = () => {
-    const color_val = backgroundColorInputRef.current.value;
-    dispatch(
-      setStyle({
-        node: selectedNode,
-        style: { backgroundColor: color_val },
-      })
-    );
+  const handleBackgroundColorChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const color_val = e.target.value;
+    if (color_val) {
+      dispatch(
+        setStyle({
+          node: selectedNode,
+          view: selectedView,
+          style: { backgroundColor: color_val },
+        })
+      );
+    }
   };
 
   const openColorPicker = () => {
-    backgroundColorInputRef.current.click();
+    backgroundColorInputRef.current?.click();
   };
 
   return (
@@ -58,8 +63,8 @@ const BackgroundColorPicker = () => {
       <input
         type="color"
         ref={backgroundColorInputRef}
-        className="asbolute top-0 left-0 -translate-x-[260px]"
-        style={{ opacity: "none", width: 0, height: 0, visibility: "hidden" }}
+        className="absolute top-0 left-0 -translate-x-[260px]"
+        style={{ opacity: 0, width: 0, height: 0, visibility: "hidden" }}
         onChange={handleBackgroundColorChange}
       />
     </>

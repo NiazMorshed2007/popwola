@@ -9,7 +9,7 @@ import { uploadImage } from "@/lib/services/storage.service";
 import { setUrl, setValue } from "@/redux/slices/popupSlice";
 import { ChangeEvent } from "react";
 
-const ValueCell = () => {
+const ValueCell: React.FC = () => {
   const selectedNode = useSelectedNode();
   const { popupSlice } = usePopupSlice();
   const { toast } = useToast();
@@ -46,6 +46,7 @@ const ValueCell = () => {
     });
     toast({
       title: "Image uploaded & stored on cloud successfully",
+      description: "Pulling the image from cloud...",
     });
   };
 

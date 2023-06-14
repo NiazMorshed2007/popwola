@@ -85,11 +85,11 @@ let api: any = {
       .database.updateDocument(databaseId, collectionId, documentId, data);
   },
 
-  // deleteDocument: (databaseId, collectionId, documentId) => {
-  //   return api
-  //     .provider()
-  //     .database.deleteDocument(databaseId, collectionId, documentId);
-  // },
+  deleteDocument: (collectionId: string, documentId: string) => {
+    return api
+      .provider()
+      .database.deleteDocument(databaseId, collectionId, documentId);
+  },
 
   createFile: (file: any) => {
     return api
