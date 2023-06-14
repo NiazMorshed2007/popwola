@@ -5,20 +5,26 @@ import { extractTranslateValue } from "@/components/editor/helpers/extractTransl
 import { usePopupSlice } from "@/hooks/popupSliceHook";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { useSelectedNode } from "@/hooks/selectedNodeHook";
+import { useSelectedView } from "@/hooks/selectedViewHook";
 
 const Transform = () => {
   const { targetedNodeStyle } = usePopupSlice();
   const dispatch = useAppDispatch();
   const selectedNode = useSelectedNode();
+  const selectedView = useSelectedView();
   const xVal = extractTranslateValue(targetedNodeStyle()?.transform!, "x");
   const yVal = extractTranslateValue(targetedNodeStyle()?.transform!, "y");
 
   const handleChangeX = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setXAxis({ node: selectedNode, x: e.target.value }));
+    dispatch(
+      setXAxis({ node: selectedNode, view: selectedView, x: e.target.value })
+    );
   };
 
   const handleChangeY = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setYAxis({ node: selectedNode, y: e.target.value }));
+    dispatch(
+      setYAxis({ node: selectedNode, view: selectedView, y: e.target.value })
+    );
   };
 
   return (

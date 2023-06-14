@@ -5,9 +5,11 @@ import { useAppDispatch } from "@/hooks/reduxHooks";
 import { setStyle } from "@/redux/slices/popupSlice";
 import { useSelectedNode } from "@/hooks/selectedNodeHook";
 import { usePopupSlice } from "@/hooks/popupSliceHook";
+import { useSelectedView } from "@/hooks/selectedViewHook";
 
 const WidthHeight = () => {
   const selectedNode = useSelectedNode();
+  const selectedView = useSelectedView();
   const dispatch = useAppDispatch();
   const { targetedNodeStyle } = usePopupSlice();
   const width = removePx(targetedNodeStyle()?.width as string);
@@ -15,12 +17,24 @@ const WidthHeight = () => {
 
   const handleChangeWidth = (e: ChangeEvent<HTMLInputElement>) => {
     const newWidth = e.target.value + "px";
-    dispatch(setStyle({ node: selectedNode, style: { width: newWidth } }));
+    dispatch(
+      setStyle({
+        node: selectedNode,
+        view: selectedView,
+        style: { width: newWidth },
+      })
+    );
   };
 
   const handleChangeHeight = (e: ChangeEvent<HTMLInputElement>) => {
     const newHeight = e.target.value + "px";
-    dispatch(setStyle({ node: selectedNode, style: { height: newHeight } }));
+    dispatch(
+      setStyle({
+        node: selectedNode,
+        view: selectedView,
+        style: { height: newHeight },
+      })
+    );
   };
 
   return (

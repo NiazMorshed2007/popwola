@@ -1,15 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { UserInterface } from "@/interfaces/user.interface";
+import { useToast } from "@/components/ui/use-toast";
 import {
   getUserDocument,
   updateUserDocument,
 } from "@/lib/services/user.service";
+import { Loader } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import ProfileSkeleton from "./components/ProfileSkeleton";
-import { useToast } from "@/components/ui/use-toast";
-import { Loader } from "lucide-react";
 
 const Profile = () => {
   const [profileData, setProfileData] = useState<any>({});

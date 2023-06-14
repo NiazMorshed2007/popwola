@@ -1,29 +1,29 @@
 "use client";
 
+import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ToastProvider } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { LoginInterface } from "@/interfaces/auth.interface";
 import { login } from "@/lib/services/auth.service";
-import { Toast } from "@radix-ui/react-toast";
-import { FileWarning, LoaderIcon } from "lucide-react";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-const LoginForm = () => {
-  const router = useRouter();
+const LoginForm = (): JSX.Element => {
+  const router: AppRouterInstance = useRouter();
   const [data, setData] = useState<LoginInterface>({ email: "", password: "" });
   const [loading, setLoading] = useState<boolean>(false);
 
   const { toast } = useToast();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -34,22 +34,19 @@ const LoginForm = () => {
         title: "Login Successful!",
       });
       router.push("/space");
-      setLoading(false);
     } catch (err: any) {
       toast({
         variant: "destructive",
         title: "Uh oh! Can't Login :(",
         description: err.message,
       });
+    } finally {
       setLoading(false);
     }
   };
 
   return (
     <form onSubmit={handleLogin} className="py-10">
-      <ToastProvider>
-        <Toast />
-      </ToastProvider>
       <div className="mb-4">
         <label className="block mb-2 text-xs text-secondary font-medium">
           Email <span className="text-red-500">*</span>
@@ -77,8 +74,7 @@ const LoginForm = () => {
         />
       </div>
       <Button disabled={loading} className="w-full text-sm">
-        {" "}
-        {loading && <LoaderIcon className="animate-spin mr-3" size={20} />}{" "}
+        {loading && <Loader />}
         Login
       </Button>
       <p className="text-sm mt-6">

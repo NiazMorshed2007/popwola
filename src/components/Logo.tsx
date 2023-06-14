@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface Props {
@@ -7,10 +8,13 @@ interface Props {
 const Logo: React.FC<Props> = (props) => {
   const { className } = props;
   return (
-    <img
-      className={`w-[60px] h-[60px] ${className}`}
+    <Image
+      width="0"
+      height="0"
+      sizes="100vw"
+      className={`w-[50px] h-[50px] ${className}`}
       src="/popwola-logo.svg"
-      alt=""
+      alt="logo"
     />
   );
 };

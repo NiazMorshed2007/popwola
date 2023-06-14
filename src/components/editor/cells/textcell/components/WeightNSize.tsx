@@ -11,22 +11,40 @@ import { useAppDispatch } from "@/hooks/reduxHooks";
 import { useSelectedNode } from "@/hooks/selectedNodeHook";
 import { setStyle } from "@/redux/slices/popupSlice";
 import CellInput from "../../common/CellInput";
+import { useSelectedView } from "@/hooks/selectedViewHook";
 
 const WeightNSize = () => {
   const { targetedNodeStyle } = usePopupSlice();
   const selectedNode = useSelectedNode();
+  const selectedView = useSelectedView();
   const dispatch = useAppDispatch();
   const fontWeight = targetedNodeStyle()?.fontWeight as string;
-  const fontSize = removePx(targetedNodeStyle()?.fontSize?.toString()!);
+  const fontSize = removePx(targetedNodeStyle()?.fontSize?.toString() || "");
+
+  const handleFontWeightChange = (e: string) => {
+    dispatch(
+      setStyle({
+        node: selectedNode,
+        view: selectedView,
+        style: { fontWeight: e },
+      })
+    );
+  };
+
+  const handleFontSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fontSizeValue = e.target.value + "px";
+    dispatch(
+      setStyle({
+        node: selectedNode,
+        view: selectedView,
+        style: { fontSize: fontSizeValue },
+      })
+    );
+  };
 
   return (
     <>
-      <Select
-        defaultValue={fontWeight}
-        onValueChange={(e: string) => {
-          dispatch(setStyle({ node: selectedNode, style: { fontWeight: e } }));
-        }}
-      >
+      <Select defaultValue={fontWeight} onValueChange={handleFontWeightChange}>
         <SelectTrigger className="w-[120px]">
           <SelectValue
             style={{
@@ -47,14 +65,7 @@ const WeightNSize = () => {
       <CellInput
         label="Size"
         value={fontSize}
-        onChangeFn={(e) => {
-          dispatch(
-            setStyle({
-              node: selectedNode,
-              style: { fontSize: e.target.value + "px" },
-            })
-          );
-        }}
+        onChangeFn={handleFontSizeChange}
       />
     </>
   );

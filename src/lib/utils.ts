@@ -14,6 +14,15 @@ export function formatDate(input: string | number): string {
   });
 }
 
+export const removeUnwantedKeys = (obj: Object) => {
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    if (key.startsWith("$") && key !== "$id") {
+      return acc;
+    }
+    return { ...acc, [key]: value };
+  }, {});
+};
+
 export function absoluteUrl(path: string) {
   return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 }

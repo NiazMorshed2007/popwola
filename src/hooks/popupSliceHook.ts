@@ -1,37 +1,71 @@
 import { selectSelectedNode } from "@/redux/slices/nodeSlice";
+import { PopupSliceInterface } from "@/redux/slices/popupSlice";
 import {
-  PopupSliceInterface,
-  selectBg,
-  selectButtonStyle,
-  selectImageStyle,
-  selectSubtitleStyle,
-  selectTitleStyle,
-} from "@/redux/slices/popupSlice";
+  SupportedResponsiveViews,
+  selectSelectedViews,
+} from "@/redux/slices/responsiveSlice";
 import { useAppSelector } from "./reduxHooks";
 
+type SelectedNode = "title" | "subtitle" | "image" | "button" | "bg";
+
 export const usePopupSlice = () => {
+  const selectedNode: SelectedNode = useAppSelector(selectSelectedNode);
+  const selectedView: SupportedResponsiveViews =
+    useAppSelector(selectSelectedViews);
+
   const popupSlice: PopupSliceInterface = useAppSelector(
     (state) => state.popup
   );
-  const titleStyle = useAppSelector(selectTitleStyle);
-  const subtitleStyle = useAppSelector(selectSubtitleStyle);
-  const imageStyle = useAppSelector(selectImageStyle);
-  const bgStyle = useAppSelector(selectBg);
-  const buttonStyle = useAppSelector(selectButtonStyle);
-
-  const selectedNode = useAppSelector(selectSelectedNode);
+  const titleStyle: any = useAppSelector((state) => {
+    return state.popup[
+      `title_style${
+        selectedView === "desktop" ? "" : "_" + selectedView
+      }` as keyof PopupSliceInterface
+    ]!;
+  });
+  const subtitleStyle: any = useAppSelector((state) => {
+    return state.popup[
+      `subtitle_style${
+        selectedView === "desktop" ? "" : "_" + selectedView
+      }` as keyof PopupSliceInterface
+    ]!;
+  });
+  const imageStyle: any = useAppSelector((state) => {
+    return state.popup[
+      `image_style${
+        selectedView === "desktop" ? "" : "_" + selectedView
+      }` as keyof PopupSliceInterface
+    ]!;
+  });
+  const bgStyle: any = useAppSelector((state) => {
+    return state.popup[
+      `bg${
+        selectedView === "desktop" ? "" : "_" + selectedView
+      }` as keyof PopupSliceInterface
+    ]!;
+  });
+  const buttonStyle: any = useAppSelector((state) => {
+    return state.popup[
+      `button_style${
+        selectedView === "desktop" ? "" : "_" + selectedView
+      }` as keyof PopupSliceInterface
+    ]!;
+  });
 
   const targetedNodeStyle = () => {
-    if (selectedNode === "title") {
-      return titleStyle;
-    } else if (selectedNode === "subtitle") {
-      return subtitleStyle;
-    } else if (selectedNode === "image") {
-      return imageStyle;
-    } else if (selectedNode === "button") {
-      return buttonStyle;
-    } else if (selectedNode === "bg") {
-      return bgStyle;
+    switch (selectedNode) {
+      case "title":
+        return titleStyle;
+      case "subtitle":
+        return subtitleStyle;
+      case "image":
+        return imageStyle;
+      case "button":
+        return buttonStyle;
+      case "bg":
+        return bgStyle;
+      default:
+        return null;
     }
   };
 

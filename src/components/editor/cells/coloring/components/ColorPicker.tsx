@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { usePopupSlice } from "@/hooks/popupSliceHook";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { useSelectedNode } from "@/hooks/selectedNodeHook";
+import { useSelectedView } from "@/hooks/selectedViewHook";
 import { setStyle } from "@/redux/slices/popupSlice";
 import { useRef } from "react";
 
@@ -9,6 +10,7 @@ const ColorPicker = () => {
   const colorInputRef: any = useRef();
   const dispatch = useAppDispatch();
   const selectedNode = useSelectedNode();
+  const selectedView = useSelectedView();
   const { targetedNodeStyle } = usePopupSlice();
 
   const getColorByNode = () => {
@@ -20,6 +22,7 @@ const ColorPicker = () => {
     dispatch(
       setStyle({
         node: selectedNode,
+        view: selectedView,
         style: { color: color_val },
       })
     );

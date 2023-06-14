@@ -1,23 +1,33 @@
-import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
-import { SupportedNodeTypes } from "./nodeSlice";
-import { CSSProperties } from "react";
 import { extractTranslateValue } from "@/components/editor/helpers/extractTranslate";
-import { URL } from "url";
+import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
+import { CSSProperties } from "react";
+import { SupportedNodeTypes } from "./nodeSlice";
+import { SupportedResponsiveViews } from "./responsiveSlice";
 
 export interface PopupSliceInterface {
   id: string;
   campaign_id: string;
   name: string;
   bg: CSSProperties;
+  bg_tablet: CSSProperties;
+  bg_mobile: CSSProperties;
   title_value: string;
   title_style: CSSProperties;
+  title_style_tablet: CSSProperties;
+  title_style_mobile: CSSProperties;
   subtitle_value: string;
   subtitle_style: CSSProperties;
+  subtitle_style_tablet: CSSProperties;
+  subtitle_style_mobile: CSSProperties;
   img_url: string;
   image_style: CSSProperties;
+  image_style_tablet: CSSProperties;
+  image_style_mobile: CSSProperties;
   button_value: string;
   button_url: string;
   button_style: CSSProperties;
+  button_style_tablet: CSSProperties;
+  button_style_mobile: CSSProperties;
 }
 
 const transformStyleMap: {
@@ -46,7 +56,23 @@ const initialPopupState: PopupSliceInterface = {
     position: "relative",
     borderRadius: "10px",
   },
-  title_value: "Don't miss this amazing opportuity",
+  bg_tablet: {
+    backgroundColor: "#ffffff",
+    width: "500px",
+    height: "350px",
+    overflow: "hidden",
+    position: "relative",
+    borderRadius: "10px",
+  },
+  bg_mobile: {
+    backgroundColor: "#ffffff",
+    width: "300px",
+    height: "250px",
+    overflow: "hidden",
+    position: "relative",
+    borderRadius: "10px",
+  },
+  title_value: "Uhh Ohh! Your popup not found!",
   title_style: {
     color: "#21a373",
     fontSize: "35px",
@@ -58,8 +84,52 @@ const initialPopupState: PopupSliceInterface = {
     transform: "translate(57px, 31px)",
     width: "602px",
   },
-  subtitle_value: "Limited offer!! Claim your deal now!!",
+  title_style_tablet: {
+    color: "#21a373",
+    fontSize: "25px",
+    fontWeight: "600",
+    height: "50px",
+    letterSpacing: "0px",
+    position: "absolute",
+    textAlign: "left",
+    transform: "translate(57px, 31px)",
+    width: "602px",
+  },
+  title_style_mobile: {
+    color: "#21a373",
+    fontSize: "20px",
+    fontWeight: "600",
+    height: "50px",
+    letterSpacing: "0px",
+    position: "absolute",
+    textAlign: "left",
+    transform: "translate(57px, 31px)",
+    width: "602px",
+  },
+  subtitle_value: "Your popup is not found. Please create a new one.",
   subtitle_style: {
+    color: "#3d3d3d",
+    fontSize: "19px",
+    fontWeight: "400",
+    height: "30px",
+    letterSpacing: "0px",
+    position: "absolute",
+    textAlign: "center",
+    transform: "translate(73px, 95px)",
+    width: "540px",
+  },
+  subtitle_style_tablet: {
+    color: "#3d3d3d",
+    fontSize: "19px",
+    fontWeight: "400",
+    height: "30px",
+    letterSpacing: "0px",
+    position: "absolute",
+    textAlign: "center",
+    transform: "translate(73px, 95px)",
+    width: "540px",
+  },
+  subtitle_style_mobile: {
     color: "#3d3d3d",
     fontSize: "19px",
     fontWeight: "400",
@@ -79,10 +149,47 @@ const initialPopupState: PopupSliceInterface = {
     transform: "translate(191px, 209px)",
     width: "286px",
   },
-  button_value: "Click here",
+  image_style_tablet: {
+    height: "222px",
+    position: "absolute",
+    transform: "translate(191px, 209px)",
+    width: "286px",
+  },
+  image_style_mobile: {
+    height: "222px",
+    position: "absolute",
+    transform: "translate(191px, 209px)",
+    width: "286px",
+  },
+  button_value: "Not Found",
   button_url: "https://www.google.com",
   button_style: {
-    background: "#000000",
+    backgroundColor: "#f42841",
+    borderRadius: "10px",
+    color: "#ffffff",
+    fontSize: "16px",
+    fontWeight: "400",
+    height: "39px",
+    letterSpacing: "0px",
+    position: "absolute",
+    textAlign: "center",
+    transform: "translate(256px, 150px)",
+    width: "165px",
+  },
+  button_style_tablet: {
+    backgroundColor: "#f42841",
+    borderRadius: "10px",
+    color: "#ffffff",
+    fontSize: "16px",
+    fontWeight: "400",
+    height: "39px",
+    letterSpacing: "0px",
+    position: "absolute",
+    textAlign: "center",
+    transform: "translate(256px, 150px)",
+    width: "165px",
+  },
+  button_style_mobile: {
     backgroundColor: "#f42841",
     borderRadius: "10px",
     color: "#ffffff",
@@ -140,12 +247,15 @@ export const popupSlice = createSlice({
       state,
       action: PayloadAction<{
         node: SupportedNodeTypes;
+        view: SupportedResponsiveViews;
         x: string;
       }>
     ) => {
-      const { node, x } = action.payload;
-      const targetStyle = transformStyleMap[node];
-      const style = state[targetStyle];
+      const { node, view, x } = action.payload;
+      const targetStyle = `${node}${node !== "bg" ? "_style" : ""}${
+        view === "desktop" ? "" : "_" + view
+      }` as keyof PopupSliceInterface;
+      const style = state[targetStyle] as any;
       const y = extractTranslateValue(style.transform!, "y");
       style.transform = `translate(${x}px, ${y}px)`;
     },
@@ -154,12 +264,15 @@ export const popupSlice = createSlice({
       state,
       action: PayloadAction<{
         node: SupportedNodeTypes;
+        view: SupportedResponsiveViews;
         y: string;
       }>
     ) => {
-      const { node, y } = action.payload;
-      const targetStyle = transformStyleMap[node];
-      const style = state[targetStyle];
+      const { node, view, y } = action.payload;
+      const targetStyle = `${node}${node !== "bg" ? "_style" : ""}${
+        view === "desktop" ? "" : "_" + view
+      }` as keyof PopupSliceInterface;
+      const style = state[targetStyle] as any;
       const x = extractTranslateValue(style.transform!, "x");
       style.transform = `translate(${x}px, ${y}px)`;
     },
@@ -167,11 +280,15 @@ export const popupSlice = createSlice({
       state,
       action: PayloadAction<{
         node: SupportedNodeTypes;
+        view: SupportedResponsiveViews;
         style: CSSProperties;
       }>
     ) => {
-      const { node, style } = action.payload;
-      const targetStyle = transformStyleMap[node];
+      const { node, style, view } = action.payload;
+
+      const targetStyle = `${node}${node !== "bg" ? "_style" : ""}${
+        view === "desktop" ? "" : "_" + view
+      }` as keyof PopupSliceInterface;
 
       const prevStyle = state[targetStyle] as any;
       const styleKey = Object.keys(style)[0];
@@ -189,6 +306,10 @@ export const selectPopup = (state: { popup: PopupSliceInterface }) =>
   state.popup;
 
 export const selectBg = createSelector([selectPopup], (popup) => popup.bg);
+export const selectBgTablet = createSelector(
+  [selectPopup],
+  (popup) => popup.bg_tablet
+);
 
 export const selectTitleStyle = createSelector(
   [selectPopup],
