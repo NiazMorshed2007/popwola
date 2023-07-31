@@ -10,7 +10,7 @@ const Header = () => {
       <div className="buttons-wrapper text-sm flex items-center gap-6">
         <a href={"/login"}>Login</a>
         <a href={"/signup"}>
-          <Button className="p-2 px-6 text-sm rounded-full">Get Strated</Button>
+          <Button className="p-2 px-6 text-sm rounded-full">Get Started</Button>
         </a>
       </div>
     </header>
