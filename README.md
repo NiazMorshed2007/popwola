@@ -47,6 +47,7 @@ Take control of your popups' display duration with ease. Popwola's timeline mana
 
 We understand the importance of speed in today's digital landscape. That's why we have optimized Popwola to deliver an exceptional user experience with unparalleled speed. Enjoy lightning-fast performance that ensures your popups load quickly, enhancing user engagement and reducing bounce rates.
 
+
 ## Tech Stack 🧑‍💻
 
 <a href="https://nextjs.org" target="blank">Next.js</a>: A popular React framework for building fast and scalable applications. <br />
@@ -54,6 +55,7 @@ We understand the importance of speed in today's digital landscape. That's why w
 <a href="https://ui.shadcn.com" target="blank">shadcn/ui</a>: A UI component library for building modern and responsive user interfaces. <br />
 <a href="https://www.typescriptlang.org/" target="blank">TypeScript</a>: A statically typed superset of JavaScript that enhances code maintainability and developer productivity. <br />
 <a href="https://tailwindcss.com/" target="blank">Tailwind<a>: A utility-first CSS framework that enables rapid UI development with pre-built components and customizable styling.
+
 
 ## Installation
 
@@ -80,6 +82,7 @@ To get started with Popwola, follow these simple steps:
 
 4. Open your browser and navigate to `http://localhost:3000` to access Popwola.
 
+
 ## Contributing
 
 We welcome contributions from the community to make Popwola even better. To contribute, please follow these steps:
@@ -89,6 +92,7 @@ We welcome contributions from the community to make Popwola even better. To cont
 2. Create a new branch from the `main` branch.
 
 3. Make your changes
+
 
 ## Support
 Support the project by giving it a star.
