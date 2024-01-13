@@ -85,7 +85,7 @@ To get started with Popwola, follow these simple steps:
 
 ## Contributing
 
-We welcome contributions from the community to make Popwola even better. To contribute, please follow these steps:
+We welcome contributions from the community to make Popwola even better. To contribute, please follow the steps:
 
 1. Fork the repository and clone it locally.
 
